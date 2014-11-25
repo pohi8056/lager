@@ -3,29 +3,21 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "lager.h"
 
 
-typedef struct vara_t *Db_T; //pekare till adress
-typedef struct db_t *db_t;
 
-
-struct goods{
+struct item_t{
   char *name;
   char *description;
-  place _place;
+  struct location_t *_place;
   int price;
   int amount;
 };
 
 
-struct place{
-  char letter;
-  int number;
-};
-
-
 struct db_t{
-  struct goods item[10];
+  struct item_t item[10];
   int amount;
 };
 
@@ -39,53 +31,50 @@ struct location_t{
 
 void print_main_menu(){
 
-
 }
 
-
-void add_to_db(database db, struct goods v){
-  db->item[db->amount++] = v;
+void add_to_db(DB db, Item v){
+  db->item[db->amount++] = *v;
   // db->amount = db->amount+1;
 
 }
 
-
-
-
-
-void add_item(database db){
+void add_item(DB db){
   
-  struct goods item;
+  struct item_t item;
 
-  item.name = ask_string_question("Name: ");
-  item.amount = ask_int_question("Amount: ");
+  //item.name = ask_string_question("Name: ");
+  //item.amount = ask_int_question("Amount: ");
 
-  print_item(item);
+  //print_item(item);
 
   if(ask_char_question("Save to db?", "Yy Nn") == 'y'){
-    *db = item;
-    add_to_db(db, item);
+    //*db = item;
+    add_to_db(db, &item);
   }
 }
 
 
 bool ask_yes_no(char* question){
   puts(question);
+  
+  
   while(true){
-      switch (getchar()) {
-      case "y":
+      switch (getchar()){
+      case ('y'):
 	return true;
 	break;
-      case "n":
+      case ('n'):
 	return false;
 	break;
       default:
-	puts("choose [y] / [n]");
-	while (getchar() != "\n") {
+	puts("Choose [y] / [n]");
+	while (getchar() != '\n') {
 	  break;
 	}
       }
   }
+  
 }
 
 
@@ -94,20 +83,16 @@ char ask_char_question(char *question, char *answer){
   printf("%s [%s]\n", question, answer);
   
   while(true){  
-    char reply = getChar();
+    char reply = getchar();
     while(getchar() != '\n');
 
     if(strchr(answer, reply)){
-     return toLower(reply);
+     return tolower(reply);
     }   
     printf("Invalid answer, try [%s]\n", answer);    
   }
   
 }
-
-
-
-
 
 
 int main(void){
@@ -119,6 +104,8 @@ int main(void){
     if(ask_yes_no("Yes?")){
       break;
     }
+
+    /*
     switch(ask_char_question("Enter an operation.", "Ee Uu Aa Dd Cc Ll"){
     
 	//End
@@ -132,8 +119,8 @@ int main(void){
 
 
       }
-      
-      }
-  
+    */  
+  }
+    
   return 0;
 }
