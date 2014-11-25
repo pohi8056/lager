@@ -5,48 +5,46 @@
 #include <ctype.h>
 #include "lager.h"
 
+struct db_t{
+  Item inventory[10];
+  int amount;
+};
 
+struct location_t{
+  char* shelf; //hyllan
+  int place; //platsen på hyllan
+};
 
 struct item_t{
   char *name;
   char *description;
-  struct location_t *_place;
+  struct location_t place;
   int price;
   int amount;
 };
 
 
-struct db_t{
-  struct item_t item[10];
-  int amount;
-};
 
-
-struct location_t{
-  char* shelf; //hyllan
-  int place; //platen på hyllan
-};
-
-
-
-void print_main_menu(){
-
+void print_item(Item i){
 }
 
-void add_to_db(DB db, Item v){
-  db->item[db->amount++] = *v;
-  // db->amount = db->amount+1;
+void print_main_menu(){
+}
 
+
+void add_to_db(DB db, Item v){
+  db->inventory[db->amount++] = v;
+  // db->amount = db->amount+1;
 }
 
 void add_item(DB db){
   
   Item item = NULL;
 
-  //item.name = ask_string_question("Name: ");
-  //item.amount = ask_int_question("Amount: ");
+  //  item->name = ask_char_question("Name: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
+  //item->amount = ask_char_question("Amount: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
 
-  //print_item(item);
+  print_item(item);
 
   if(ask_char_question("Save to db?", "Yy Nn") == 'y'){
     //*db = item;
@@ -104,11 +102,8 @@ int main(void){
     if(ask_yes_no("Yes?")){
       break;
     }
-
-    /*
-    switch(ask_char_question("Enter an operation.", "Ee Uu Aa Dd Cc Ll"){
+    /*    switch(ask_char_question("Enter an operation.", "Ee Uu Aa Dd Cc Ll")){
     
-	//End
     case 'e':
 	   if(ask_char_question("Do you want to quit the program?", "Yy, Nn") == 'y'){
 	     shouldContinue = false;
@@ -118,8 +113,7 @@ int main(void){
 	
 
 
-      }
-    */  
+      }*/  
   }
     
   return 0;
