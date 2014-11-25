@@ -54,11 +54,9 @@ void add_item(DB db){
 
 
 bool ask_yes_no(char* question){
-  puts(question);
-  
-  
+  puts(question);  
   while(true){
-      switch (getchar()){
+    switch (tolower(getchar())){
       case ('y'):
 	return true;
 	break;
@@ -95,26 +93,27 @@ char ask_char_question(char *question, char *answer){
 
 int main(void){
   
-  bool shouldContinue = false;
+  bool shouldContinue = true;
 
   while(shouldContinue){
     print_main_menu();
-    if(ask_yes_no("Yes?")){
-      break;
-    }
-    /*    switch(ask_char_question("Enter an operation.", "Ee Uu Aa Dd Cc Ll")){
-    
-    case 'e':
-	   if(ask_char_question("Do you want to quit the program?", "Yy, Nn") == 'y'){
-	     shouldContinue = false;
-	   }
-
-      case 'a':
-	
-
-
-      }*/  
   }
+
+  switch(ask_char_question("Enter an operation.", "EeUuAaDdCcLl")){
+    
+  case ('e'):
+    if(ask_char_question("Do you want to quit the program?", "YyNn") == 'y'){
+      shouldContinue = false;
+    }
+    
+  case ('a'):
+    break;
+  }
+    
+
+
+}  
+
     
   return 0;
 }
