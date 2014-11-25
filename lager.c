@@ -37,8 +37,6 @@ void add_to_db(DB db, Item v){
   // db->amount = db->amount+1;
 }
 
-
-
 void add_item(DB db){
   
   Item item = NULL;
@@ -49,29 +47,32 @@ void add_item(DB db){
   print_item(item);
 
   if(ask_char_question("Save to db?", "Yy Nn") == 'y'){
-    //    *db = item;
-    add_to_db(db, item);
+    //*db = item;
+    add_to_db(db, &item);
   }
 }
 
 
 bool ask_yes_no(char* question){
   puts(question);
+  
+  
   while(true){
-      switch (getchar()) {
-      case 'y':
+      switch (getchar()){
+      case ('y'):
 	return true;
 	break;
-      case 'n':
+      case ('n'):
 	return false;
 	break;
       default:
-	puts("choose [y] / [n]");
-	while (getchar() != "\n") {
+	puts("Choose [y] / [n]");
+	while (getchar() != '\n') {
 	  break;
 	}
       }
   }
+  
 }
 
 
@@ -80,8 +81,8 @@ char ask_char_question(char *question, char *answer){
   printf("%s [%s]\n", question, answer);
   
   while(true){  
-    char reply = getChar();
-    while(strcmp(getchar(),'\n') != 0);
+    char reply = getchar();
+    while(getchar() != '\n');
 
     if(strchr(answer, reply)){
      return tolower(reply);
@@ -90,10 +91,6 @@ char ask_char_question(char *question, char *answer){
   }
   
 }
-
-
-
-
 
 
 int main(void){
@@ -117,8 +114,8 @@ int main(void){
 
 
       }
-      
-      }
-  
+    */  
+  }
+    
   return 0;
 }
