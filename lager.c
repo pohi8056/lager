@@ -34,7 +34,7 @@ void print_main_menu(){
 
 void add_to_db(DB db, Item v){
   db->inventory[db->amount++] = v;
-  // db->amount = db->amount+1;
+  db->amount = db->amount+1;
 }
 
 void add_item(DB db){
@@ -58,7 +58,7 @@ bool ask_yes_no(char* question){
   
   
   while(true){
-      switch (getchar()){
+    switch (tolower(getchar())){
       case ('y'):
 	return true;
 	break;
@@ -94,27 +94,25 @@ char ask_char_question(char *question, char *answer){
 
 
 int main(void){
-  
-  bool shouldContinue = false;
+
+  bool shouldContinue = true;
 
   while(shouldContinue){
     print_main_menu();
-    if(ask_yes_no("Yes?")){
-      break;
-    }
-    /*    switch(ask_char_question("Enter an operation.", "Ee Uu Aa Dd Cc Ll")){
+    switch(ask_char_question("Enter an operation.", "Ee Uu Aa Dd Cc Ll")){
     
     case 'e':
-	   if(ask_char_question("Do you want to quit the program?", "Yy, Nn") == 'y'){
-	     shouldContinue = false;
-	   }
-
-      case 'a':
-	
-
-
-      }*/  
+      if(ask_yes_no("Do you really want to quit?")){
+	shouldContinue = false;
+	break;
+      }
+      
+    default:
+      break;
+      
+      
+    }
   }
-    
+  
   return 0;
 }

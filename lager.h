@@ -13,7 +13,7 @@ void print_main_menu();
 void add_item(DB db);
 bool ask_yes_no(char* question);
 char ask_char_question(char *question, char *answer);
-//void print_item(Item i);
+void print_item(Item i);
 
 
 
