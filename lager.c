@@ -18,12 +18,16 @@ struct location_t{
 struct item_t{
   char *name;
   char *description;
-  struct location_t location;
+  Location location;
   int price;
   int amount;
 };
 
-
+void print_inventory(DB database, int amount){
+  for (int i = 0; i < amount; i++) {
+    print_item(database->inventory[i]);
+  }
+}
 
 void print_item(Item i){
 
@@ -44,25 +48,39 @@ void print_item(Item i){
   printf("Amount: %d \n",amount);
 }
 
-void print_main_menu(){
+void print_main_menu(char *name){
+  printf("\n \n \n \n \n \n \n \n \n \n");  
+  printf("\n \n \n \n \n \n \n \n \n \n");  
+  printf("\n \n \n \n \n \n \n \n \n \n");  
+  printf("\n \n \n \n \n \n \n \n \n \n");  
+  printf("\n \n \n \n \n \n \n \n \n \n");  
+  printf("Welcome, %s, to the IronClause Inventory Database - version 1.0!  \n", name);
+  printf("_____________________________________________________ \n");
+  printf("How may we help you today? \n \n");
+  printf("I would like to...\n");
+  printf("[1]\t add an item. \n");
+  printf("[2]\t remove an item. \n");
+  printf("[3]\t undo the latest change. \n");
+  printf("[4]\t list the current inventory.\n");
+  printf("[5]\t exit program.\n");
+  printf("_____________________________________________________\n\n");
 }
 
 
 void add_to_db(DB db, Item v){
   db->inventory[db->amount++] = v;
-  // db->amount = db->amount+1;
 }
 
 void add_item(DB db){
   
   Item item = NULL;
-
-  //  item->name = ask_char_question("Name: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
-  //item->amount = ask_char_question("Amount: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
+  char itemName[100];
+  scanf("%s", itemName);
+  
+  
 
   print_item(item);
-
-  if(ask_char_question("Save to db?", "Yy Nn") == 'y'){
+  if(ask_yes_no("Save to database?")){
     //*db = item;
     add_to_db(db, item);
   }
@@ -71,62 +89,71 @@ void add_item(DB db){
 
 bool ask_yes_no(char* question){
   puts(question);
-  
-  
   while(true){
     switch (tolower(getchar())){
-      case ('y'):
-	return true;
+      while (getchar() != '\n');
+    case ('y'):
+      return true;
+      break;
+    case ('n'):
+      return false;
+      break;
+    default:
+      puts("Choose [y] / [n]");
+      while (getchar() != '\n') {
 	break;
-      case ('n'):
-	return false;
-	break;
-      default:
-	puts("Choose [y] / [n]");
-	while (getchar() != '\n') {
-	  break;
-	}
       }
+    }
   }
-  
 }
 
 
 
 char ask_char_question(char *question, char *answer){
   printf("%s [%s]\n", question, answer);
-  
   while(true){  
     char reply = getchar();
     while(getchar() != '\n');
-
     if(strchr(answer, reply)){
-     return tolower(reply);
+      return tolower(reply);
     }   
-    printf("Invalid answer, try [%s]\n", answer);    
-  }
-  
+    printf("Invalid answer, try [%s] \n", answer);    
+  }  
 }
 
-
-int main(void){
+int main(int argc, char *argv[]){
+  char *user = "guest";
+  if(argc == 2){
+      user = argv[1];
+    }
 
   bool shouldContinue = true;
 
   while(shouldContinue){
-    print_main_menu();
-    switch(ask_char_question("Enter an operation.", "Ee Uu Aa Dd Cc Ll")){
-    
-    case 'e':
-      if(ask_yes_no("Do you really want to quit?")){
+    print_main_menu(user);
+    switch(ask_char_question("Enter an operation:", "1, 2, 3, 4, 5")){    
+    case '5':
+      if(ask_yes_no("Do you really want to exit program?")){
 	shouldContinue = false;
 	break;
       }
-      
+      else{
+	while(getchar() != '\n'); // clear char buffer.
+      }
+    case '4':
+      //list inventory
+      break;
+    case '3':
+      //undo
+      break;
+    case '2':
+      //remove
+      break;
+    case '1':
+      //add
+      break;      
     default:
       break;
-      
-      
     }
   }
   
