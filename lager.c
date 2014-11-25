@@ -18,7 +18,7 @@ struct location_t{
 struct item_t{
   char *name;
   char *description;
-  struct location_t place;
+  struct location_t location;
   int price;
   int amount;
 };
@@ -26,6 +26,22 @@ struct item_t{
 
 
 void print_item(Item i){
+
+  char *itemName = i->name;
+  char *desc = i->description;
+  char *shelf = i->location->shelf;
+
+  int place = i->location->place;
+  int price = i->price;
+  int amount = i->amount;
+
+  printf("Item: %c \n",*itemName);
+  printf("Description: %c \n",*desc);
+  printf("Shelf: %c \n",*shelf);
+
+  printf("Place: %d \n",place);
+  printf("Price: %d \n",price);
+  printf("Amount: %d \n",amount);
 }
 
 void print_main_menu(){
