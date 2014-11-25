@@ -41,7 +41,7 @@ void add_to_db(DB db, Item v){
 
 void add_item(DB db){
   
-  struct item_t item;
+  Item item = NULL;
 
   //item.name = ask_string_question("Name: ");
   //item.amount = ask_int_question("Amount: ");
@@ -50,7 +50,7 @@ void add_item(DB db){
 
   if(ask_char_question("Save to db?", "Yy Nn") == 'y'){
     //*db = item;
-    add_to_db(db, &item);
+    add_to_db(db, item);
   }
 }
 
