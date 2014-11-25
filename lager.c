@@ -39,17 +39,21 @@ void add_to_db(DB db, Item v){
 
 void add_item(DB db){
   
-  Item item = NULL;
-
-  //  item->name = ask_char_question("Name: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
+  Item item = malloc(sizeof(item));
+  printf("Name: ");
+  char itemName[50];
+  scanf("%s", itemName);
+  item->name = itemName;
+  printf("%s", item->name);
   //item->amount = ask_char_question("Amount: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
-
+  
   print_item(item);
 
   if(ask_char_question("Save to db?", "Yy Nn") == 'y'){
-    //*db = item;
+    //db-> = item;
     add_to_db(db, item);
   }
+  
 }
 
 
@@ -74,7 +78,20 @@ bool ask_yes_no(char* question){
   }
   
 }
+/*
 
+char ask_string_question(char *question){
+  char *reply = malloc(sizeof(char) * 100);
+  printf("%s \n", question);
+  while(true){
+    scanf("%s", &reply);
+    if(reply != '\0'){
+      return reply;
+    }
+    printf("Invalid answer.");
+  }
+}
+*/
 
 
 char ask_char_question(char *question, char *answer){
@@ -107,6 +124,10 @@ int main(void){
 	break;
       }
       
+    case 'a':
+
+      break;
+
     default:
       break;
       
