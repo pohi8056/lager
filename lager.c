@@ -41,14 +41,14 @@ void add_item(DB db){
   
   Item item = NULL;
 
-  item->name = ask_char_question("Name: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
-  item->amount = ask_char_question("Amount: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
+  //  item->name = ask_char_question("Name: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
+  //item->amount = ask_char_question("Amount: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
 
   print_item(item);
 
   if(ask_char_question("Save to db?", "Yy Nn") == 'y'){
     //*db = item;
-    add_to_db(db, &item);
+    add_to_db(db, item);
   }
 }
 
@@ -102,7 +102,7 @@ int main(void){
     if(ask_yes_no("Yes?")){
       break;
     }
-    switch(ask_char_question("Enter an operation.", "Ee Uu Aa Dd Cc Ll")){
+    /*    switch(ask_char_question("Enter an operation.", "Ee Uu Aa Dd Cc Ll")){
     
     case 'e':
 	   if(ask_char_question("Do you want to quit the program?", "Yy, Nn") == 'y'){
@@ -113,8 +113,7 @@ int main(void){
 	
 
 
-      }
-    */  
+      }*/  
   }
     
   return 0;
