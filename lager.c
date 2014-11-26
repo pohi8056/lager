@@ -28,8 +28,8 @@ struct item_t{
 
 
 
-void print_inventory(DB database, int amount){
-  for (int i = 0; i < amount; i++) {
+void print_inventory(DB database){
+  for (int i = 0; i < database->amount; i++) {
     print_item(database->inventory[i]);
   }
 }
@@ -79,32 +79,56 @@ void add_to_db(DB db, Item v){
 void add_item(DB db){
   
   Item item = malloc(sizeof(item) * 50);
-  printf("Name: ");
-  char itemName[50];
-  scanf("%s", itemName);
-  item->name = malloc(sizeof(item)+1);
-  strcpy(item->name, itemName);
-
-  // item->name = itemName;
-  printf("Amount: ");
-  int amount = 0;
-  scanf("%d", &amount);
-  item->amount = amount;
+  ask_name("Name: ", item);
+  ask_int("Amount: ", item);
+  
   while(getchar() != '\n');
 
   //item->amount = ask_char_question("Amount: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
   
   // print_item(item);
   if(ask_yes_no("Save to database? [Y / N]")){
-    //*db = item;
     while(getchar() != '\n');
-
+    //*db = item;
     add_to_db(db, item);
   }
   else{
     while(getchar() != '\n');
   }
 }
+
+
+void ask_int(char *question, Item item){
+  int i = 0;
+  printf("%s", question);
+  scanf("%d", &i);
+  item->amount = i;
+}
+
+void ask_name(char *question, Item item){
+  char s[50];
+  printf("%s", question);
+  scanf("%s", s);
+  item->name = malloc(sizeof(item) +1);
+  strcpy(item->name, s);
+}
+
+
+/*
+char ask_string_question(char *question){
+  char reply[50];
+  item->name = malloc(sizeof(char) * 100);
+  printf("%s \n", question);
+  while(true){
+    scanf("%s", reply);
+    strcpy(item->name, reply)
+    if(reply != '\0'){
+      return reply;
+    }
+    printf("Invalid answer.");
+  }
+}
+*/
 
 
 bool ask_yes_no(char* question){
@@ -126,30 +150,16 @@ bool ask_yes_no(char* question){
     }
   }
 }
-/*
-
-char ask_string_question(char *question){
-  char *reply = malloc(sizeof(char) * 100);
-  printf("%s \n", question);
-  while(true){
-    scanf("%s", &reply);
-    if(reply != '\0'){
-      return reply;
-    }
-    printf("Invalid answer.");
-  }
-}
-*/
 
 
 char ask_char_question(char *question, char *answer){
   printf("%s [%s]\n", question, answer);
-  while(true){  
+  while(true){ 
     char reply = getchar();
     while(getchar() != '\n');
     if(strchr(answer, reply)){
       return tolower(reply);
-    }   
+    }
     printf("Invalid answer, try [%s] \n", answer);    
   }  
 }
@@ -159,13 +169,13 @@ int main(int argc, char *argv[]){
   if(argc == 2){
       user = argv[1];
     }
-  DB db = malloc(sizeof(DB) * 100);
-  int lengthOfDb = sizeof(db) / sizeof(struct db_t);
+  DB db = malloc(sizeof(DB) * 1000);
+
   bool shouldContinue = true;
 
   while(shouldContinue){
     print_main_menu(user);
-    switch(ask_char_question("Enter an operation:", "1, 2, 3, 4, 5")){    
+    switch(ask_char_question("Enter an operation:", "1, 2, 3, 4, 5")){
     case '5':
       if(ask_yes_no("Do you really want to exit program?")){
 	shouldContinue = false;
@@ -175,7 +185,7 @@ int main(int argc, char *argv[]){
 	while(getchar() != '\n'); // clear char buffer.
       }
     case '4':
-      print_inventory(db,lengthOfDb);
+      print_inventory(db);
       //list inventory
       break;
     case '3':
