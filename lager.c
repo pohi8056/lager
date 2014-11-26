@@ -35,22 +35,22 @@ void print_inventory(DB database, int amount){
 }
 
 void print_item(Item i){
-  
-  //  char *itemName = i->name;
+
+  char *itemName = i->name;
   //char *desc = i->description;
   //char *shelf = i->location->shelf;
 
-  int place = i->location->place;
-  int price = i->price;
+  //int place = i->location->place;
+  //int price = i->price;
   int amount = i->amount;
 
-  printf("Item: %s \n",i->name);
-  printf("Description: %s \n",i->description);
-  printf("Shelf: %s \n",i->location->shelf);
+  printf("Item: %s \n",itemName);
+  //printf("Description: %c \n",*desc);
+  // printf("Shelf: %c \n",*shelf);
 
-  printf("Place: %d \n", place);
-  printf("Price: %d \n", price);
-  printf("Amount: %d \n", amount);
+  //printf("Place: %d \n",place);
+  //printf("Price: %d \n",price);
+  printf("Amount: %d \n",amount);
 }
 
 void print_main_menu(char *name){
@@ -77,47 +77,24 @@ void add_to_db(DB db, Item v){
 }
 
 void add_item(DB db){
-  Item item = malloc(sizeof(item));
+  
+  Item item = malloc(sizeof(item) * 50);
+  printf("Name: ");
   char itemName[50];
   scanf("%s", itemName);
-  while (getchar() != '\n');
-  item->name = itemName;
-  printf("%s", item->name);
-
-  char descrip[50];
-  scanf("%s", descrip);
-  while (getchar() != '\n');
-  item->description = descrip;
-  printf("%s", item->description);
-
-
-  char shel[50];
-  scanf("%s", shel);
-  while (getchar() != '\n');
-  item->location->shelf = shel;
-  printf("%s", item->location->shelf);  
-
-  int pla;
-  scanf("%d", pla);
-  while (getchar() != '\n');
-  item->location->place = pla;
-  printf("%d", item->location->place);  
-
-
-  int *pric;
-  scanf("%d", *pric);
-  while (getchar() != '\n');
-  item->price = pric;
-  printf("%d", item->price);
-
-
-  int *amoun;
-  scanf("%d", *amoun);
-  while (getchar() != '\n');
-  item->amount = shel;
-  printf("%d", item->amount);  
-
-  if(ask_yes_no("\n Save to database?")){
+  item->name = malloc(sizeof(item)+1);
+  strcpy(item->name, itemName);
+  // item->name = itemName;
+  printf("Amount: ");
+  int amount = 0;
+  scanf("%d", &amount);
+  item->amount = amount;
+  while(getchar() != '\n');
+  //item->amount = ask_char_question("Amount: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
+  
+  // print_item(item);
+  if(ask_yes_no("Save to database? [Y / N]")){
+    //*db = item;
     add_to_db(db, item);
   } 
 }
@@ -171,9 +148,6 @@ char ask_char_question(char *question, char *answer){
 }
 
 int main(int argc, char *argv[]){
-  Item item = malloc(sizeof(Item));
-  add_item();
-
   char *user = "guest";
   if(argc == 2){
       user = argv[1];
