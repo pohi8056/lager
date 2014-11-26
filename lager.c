@@ -84,19 +84,26 @@ void add_item(DB db){
   scanf("%s", itemName);
   item->name = malloc(sizeof(item)+1);
   strcpy(item->name, itemName);
+
   // item->name = itemName;
   printf("Amount: ");
   int amount = 0;
   scanf("%d", &amount);
   item->amount = amount;
   while(getchar() != '\n');
+
   //item->amount = ask_char_question("Amount: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
   
   // print_item(item);
   if(ask_yes_no("Save to database? [Y / N]")){
     //*db = item;
+    while(getchar() != '\n');
+
     add_to_db(db, item);
-  } 
+  }
+  else{
+    while(getchar() != '\n');
+  }
 }
 
 
