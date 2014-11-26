@@ -15,11 +15,13 @@ void print_main_menu(char *user);
 void add_to_db(DB db, Item v);
 void add_item(DB db);
 
-void ask_int(char *question, Item item);
+void assignLocation(DB db);
+bool ask_int(char *question, Item item);
 void ask_name(char *question, Item item);
 bool ask_yes_no(char* question);
 char ask_string_question(char *question);
 char ask_char_question(char *question, char *answer);
+
 
 void print_item(Item i);
 bool print_inventory(DB database);
