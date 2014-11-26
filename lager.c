@@ -71,6 +71,28 @@ void print_main_menu(char *name){
   printf("_____________________________________________________\n\n");
 }
 
+void assignLocation(DB db){
+  char *shelfs = ("ABCD");
+  int place = 0;
+  char *tempSave;
+  for(int i = 0; db->inventory[i] != NULL; i++){
+    for(int j = 0; j < 3; j++){
+      for(int k = 0; k < 3; k++){
+	tempSave = &shelfs[j];
+	place = k;
+	
+	if(db->inventory[i] == NULL){
+	  db->inventory[i]->location->shelf = tempSave;
+	  db->inventory[i]->location->place = place;
+	  break;
+	}
+      }
+    }
+  }
+  
+}
+
+
 
 void add_to_db(DB db, Item v){
   db->inventory[db->amount++] = v;
@@ -79,30 +101,37 @@ void add_to_db(DB db, Item v){
 void add_item(DB db){
   
   Item item = malloc(sizeof(item) * 50);
+  bool validInput = false;
   ask_name("Name: ", item);
-  ask_int("Amount: ", item);
-  
-  while(getchar() != '\n');
+  validInput = ask_int("Amount: ", item);
 
-  //item->amount = ask_char_question("Amount: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
+  while(getchar() != '\n');
   
   // print_item(item);
-  if(ask_yes_no("Save to database? [Y / N]")){
-    while(getchar() != '\n');
-    //*db = item;
-    add_to_db(db, item);
-  }
-  else{
-    while(getchar() != '\n');
+  if(validInput == true){
+    if(ask_yes_no("Save to database? [Y / N]")){
+      while(getchar() != '\n');
+      //*db = item;
+      add_to_db(db, item);
+    }
+    else{
+      while(getchar() != '\n');
+    }
   }
 }
 
 
-void ask_int(char *question, Item item){
-  int i = 0;
+bool ask_int(char *question, Item item){
+  int amount = 0;
   printf("%s", question);
-  scanf("%d", &i);
-  item->amount = i;
+  scanf("%d", &amount);
+  if(isdigit(amount)){
+    item->amount = amount;
+    return true;
+  }else{
+    printf("Invalid input. Integers only. ");
+    return false;
+  }
 }
 
 void ask_name(char *question, Item item){
