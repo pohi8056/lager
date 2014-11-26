@@ -32,19 +32,19 @@ void print_inventory(DB database, int amount){
 void print_item(Item i){
 
   char *itemName = i->name;
-  char *desc = i->description;
-  char *shelf = i->location->shelf;
+  //char *desc = i->description;
+  //char *shelf = i->location->shelf;
 
-  int place = i->location->place;
-  int price = i->price;
+  //int place = i->location->place;
+  //int price = i->price;
   int amount = i->amount;
 
-  printf("Item: %c \n",*itemName);
-  printf("Description: %c \n",*desc);
-  printf("Shelf: %c \n",*shelf);
+  printf("Item: %s \n",itemName);
+  //printf("Description: %c \n",*desc);
+  // printf("Shelf: %c \n",*shelf);
 
-  printf("Place: %d \n",place);
-  printf("Price: %d \n",price);
+  //printf("Place: %d \n",place);
+  //printf("Price: %d \n",price);
   printf("Amount: %d \n",amount);
 }
 
@@ -73,16 +73,22 @@ void add_to_db(DB db, Item v){
 
 void add_item(DB db){
   
-  Item item = malloc(sizeof(item));
+  Item item = malloc(sizeof(item) * 50);
   printf("Name: ");
   char itemName[50];
   scanf("%s", itemName);
-  item->name = itemName;
-  printf("%s", item->name);
+  item->name = malloc(sizeof(item)+1);
+  strcpy(item->name, itemName);
+  // item->name = itemName;
+  printf("Amount: ");
+  int amount = 0;
+  scanf("%d", &amount);
+  item->amount = amount;
+  while(getchar() != '\n');
   //item->amount = ask_char_question("Amount: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
   
-  print_item(item);
-  if(ask_yes_no("Save to database?")){
+  // print_item(item);
+  if(ask_yes_no("Save to database? [Y / N]")){
     //*db = item;
     add_to_db(db, item);
   }
@@ -142,7 +148,7 @@ int main(int argc, char *argv[]){
   if(argc == 2){
       user = argv[1];
     }
-
+  DB db = malloc(sizeof(db)*100);
   bool shouldContinue = true;
 
   while(shouldContinue){
@@ -157,6 +163,7 @@ int main(int argc, char *argv[]){
 	while(getchar() != '\n'); // clear char buffer.
       }
     case '4':
+      print_inventory(db, 2);
       //list inventory
       break;
     case '3':
@@ -166,6 +173,7 @@ int main(int argc, char *argv[]){
       //remove
       break;
     case '1':
+      add_item(db);
       //add
       break;      
     default:
