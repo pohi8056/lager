@@ -5,15 +5,18 @@
 #include <ctype.h>
 #include "lager.h"
 
+
 struct db_t{
   Item inventory[10];
   int amount;
 };
 
+
 struct location_t{
-  char* shelf; //hyllan
-  int place; //platsen på hyllan
+  char* shelf;
+  int place;
 };
+
 
 struct item_t{
   char *name;
@@ -23,6 +26,8 @@ struct item_t{
   int amount;
 };
 
+
+
 void print_inventory(DB database, int amount){
   for (int i = 0; i < amount; i++) {
     print_item(database->inventory[i]);
@@ -30,22 +35,22 @@ void print_inventory(DB database, int amount){
 }
 
 void print_item(Item i){
-
-  char *itemName = i->name;
-  char *desc = i->description;
-  char *shelf = i->location->shelf;
+  
+  //  char *itemName = i->name;
+  //char *desc = i->description;
+  //char *shelf = i->location->shelf;
 
   int place = i->location->place;
   int price = i->price;
   int amount = i->amount;
 
-  printf("Item: %c \n",*itemName);
-  printf("Description: %c \n",*desc);
-  printf("Shelf: %c \n",*shelf);
+  printf("Item: %s \n",i->name);
+  printf("Description: %s \n",i->description);
+  printf("Shelf: %s \n",i->location->shelf);
 
-  printf("Place: %d \n",place);
-  printf("Price: %d \n",price);
-  printf("Amount: %d \n",amount);
+  printf("Place: %d \n", place);
+  printf("Price: %d \n", price);
+  printf("Amount: %d \n", amount);
 }
 
 void print_main_menu(char *name){
@@ -72,21 +77,49 @@ void add_to_db(DB db, Item v){
 }
 
 void add_item(DB db){
-  
   Item item = malloc(sizeof(item));
-  printf("Name: ");
   char itemName[50];
   scanf("%s", itemName);
+  while (getchar() != '\n');
   item->name = itemName;
   printf("%s", item->name);
-  //item->amount = ask_char_question("Amount: ","AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz");
-  
-  print_item(item);
-  if(ask_yes_no("Save to database?")){
-    //*db = item;
+
+  char descrip[50];
+  scanf("%s", descrip);
+  while (getchar() != '\n');
+  item->description = descrip;
+  printf("%s", item->description);
+
+
+  char shel[50];
+  scanf("%s", shel);
+  while (getchar() != '\n');
+  item->location->shelf = shel;
+  printf("%s", item->location->shelf);  
+
+  int pla;
+  scanf("%d", pla);
+  while (getchar() != '\n');
+  item->location->place = pla;
+  printf("%d", item->location->place);  
+
+
+  int *pric;
+  scanf("%d", *pric);
+  while (getchar() != '\n');
+  item->price = pric;
+  printf("%d", item->price);
+
+
+  int *amoun;
+  scanf("%d", *amoun);
+  while (getchar() != '\n');
+  item->amount = shel;
+  printf("%d", item->amount);  
+
+  if(ask_yes_no("\n Save to database?")){
     add_to_db(db, item);
-  }
-  
+  } 
 }
 
 
@@ -138,11 +171,15 @@ char ask_char_question(char *question, char *answer){
 }
 
 int main(int argc, char *argv[]){
+  Item item = malloc(sizeof(Item));
+  add_item();
+
   char *user = "guest";
   if(argc == 2){
       user = argv[1];
     }
-
+  DB db = malloc(sizeof(DB) * 100);
+  int lengthOfDb = sizeof(db) / sizeof(struct db_t);
   bool shouldContinue = true;
 
   while(shouldContinue){
@@ -157,6 +194,7 @@ int main(int argc, char *argv[]){
 	while(getchar() != '\n'); // clear char buffer.
       }
     case '4':
+      print_inventory(db,lengthOfDb);
       //list inventory
       break;
     case '3':
@@ -166,7 +204,7 @@ int main(int argc, char *argv[]){
       //remove
       break;
     case '1':
-      //add
+      add_item(db);    //add
       break;      
     default:
       break;
