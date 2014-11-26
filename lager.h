@@ -22,7 +22,7 @@ char ask_string_question(char *question);
 char ask_char_question(char *question, char *answer);
 
 void print_item(Item i);
-void print_inventory(DB database);
+bool print_inventory(DB database);
 
 
 
