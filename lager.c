@@ -97,22 +97,21 @@ void assignLocation(DB db, Item item){
   for(int i = 0; db->inventory[i] != NULL; i++){
     printf("ENTERED");
     for(int j = 0; j < 3; j++){
+      place = j;
       for(int k = 0; k < 3; k++){
-	tempSave = &shelfs[j];
-	place = k;
-
-	if(db->inventory[i] == NULL){
-	  item->location->shelf = *tempSave;
-	  item->location->place = place;
-	  printf("%s", tempSave);
-	  printf("%d", place);
-	  //item->loc->place
-	  break;
+	tempSave = &shelfs[k];
 	}
       }
+
+    if(db->inventory[i] == NULL){
+      printf("HAHA GOT OU");
+      db->inventory[i]->location->shelf = *tempSave;
+      db->inventory[i]->location->place = place;
+      printf("%s", tempSave);
+      printf("%d", place);
+      //item->loc->place;
     }
   }
-  
 }
 
 /*
