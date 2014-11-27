@@ -13,7 +13,7 @@ struct db_t{
 
 
 struct location_t{
-  char* shelf;
+  char shelf;
   int place;
 };
 
@@ -52,20 +52,21 @@ bool print_inventory(DB database){
 void print_item(Item i){
 
   char *itemName = i->name;
-  //char *desc = i->description;
+  char *desc = i->description;
   //char *shelf = i->location->shelf;
 
   //int place = i->location->place;
-  //int price = i->price;
+  int price = i->price;
   int amount = i->amount;
 
   printf("Item: %s \n",itemName);
-  //printf("Description: %c \n",*desc);
+  printf("Description: %s \n",desc);
   // printf("Shelf: %c \n",*shelf);
 
   //printf("Place: %d \n",place);
-  //printf("Price: %d \n",price);
   printf("Amount: %d \n",amount);
+  printf("Price: $%d\n", price);
+  printf("Total value: $%d\n",price*amount);
 }
 
 void print_main_menu(char *name){
@@ -86,20 +87,24 @@ void print_main_menu(char *name){
   printf("________________________________________________________________\n\n");
   printf("\n \n \n \n \n");  
 }
-
-void assignLocation(DB db){
-  char *shelfs = ("ABCD");
+/*
+void assignLocation(DB db, Item item, Location loc){
+  char *shelfs = "ABCD";
   int place = 0;
   char *tempSave;
+  
   for(int i = 0; db->inventory[i] != NULL; i++){
     for(int j = 0; j < 3; j++){
       for(int k = 0; k < 3; k++){
 	tempSave = &shelfs[j];
 	place = k;
-	
+
 	if(db->inventory[i] == NULL){
-	  db->inventory[i]->location->shelf = tempSave;
-	  db->inventory[i]->location->place = place;
+	  item->location->shelf = *tempSave;
+	  item->location->place = place;
+	  printf("%s", tempSave);
+	  printf("%d", place);
+	  item->loc->place
 	  break;
 	}
       }
@@ -107,28 +112,57 @@ void assignLocation(DB db){
   }
   
 }
+*/
+/*
+void assignLocation2(Item item){
+  char *shelfs = "ABCD";
+  int place = 0;
+  char *tempSave;
+
+  while
 
 
+}
+*/
 
 void add_to_db(DB db, Item v){
   db->inventory[db->amount++] = v;
 }
 
+
+Location createLocation(){
+  Location loc = malloc(sizeof(struct location_t));
+  return loc;
+}
+
 void add_item(DB db){
   
   Item item = malloc(sizeof(item) * 50);
+  Location loc = malloc(sizeof(struct location_t) * 10);
   bool validInput = false;
-  ask_name("Name: ", item);
-  validInput = ask_int("Amount: ", item);
-
+  //char lol[200];
+  ask_name("Name: ", item, 1);
+  ask_name("Description: ", item, 2);
+  
+  validInput = ask_int("Amount: ", item, 1);
+  ask_int("Price: ", item, 2);
+  //item->location->place = malloc(sizeof(item) + 1);
+  //strcpy(item->location->place, lol)
+  
+  //loc->place = 2;
+  //if(item->location->place == NULL){
+  //printf("NO MEMORY");
+  //}
   while(getchar() != '\n');
   
   // print_item(item);
   if(validInput == true){
-    if(ask_yes_no("Save to database? [Y / N]")){
+    if(ask_yes_no("Save to database? [Y / N] ")){
       while(getchar() != '\n');
       //*db = item;
       add_to_db(db, item);
+      //assignLocation(db, item);
+
     }
     else{
       while(getchar() != '\n');
@@ -137,25 +171,52 @@ void add_item(DB db){
 }
 
 
-bool ask_int(char *question, Item item){
-  int amount = 0;
+bool ask_int(char *question, Item item, int op){
+  int i = 0;
+  //int check = 0;
+  //printf("%s\n", isdigit(amount));
   printf("%s", question);
-  scanf("%d", &amount);
-  if(isdigit(amount)){
-    item->amount = amount;
-    return true;
-  }else{
-    printf("Invalid input. Integers only. ");
-    return false;
+  //while(getchar() != '\n');
+  scanf("%d", &i);
+  //check = isdigit(amount);
+  //intAmount = atoi(&amount);
+  //printf("%d\n", atoi(&amount));
+  
+  //if(check != 0){
+  switch(op){
+
+  case 1:
+    item->amount = i;
+    break;
+
+  case 2:
+    item->price = i;
+    break;
   }
+    return true;
+    //}else{
+    //printf("Invalid input. Integers only. ");
+    //return false;
+    //}
 }
 
-void ask_name(char *question, Item item){
-  char s[50];
+void ask_name(char *question, Item item, int op){
+  char s[150];
   printf("%s", question);
   scanf("%s", s);
-  item->name = malloc(sizeof(item) +1);
-  strcpy(item->name, s);
+  switch(op){
+  case 1:
+    item->name = malloc(sizeof(item) +1);
+    strcpy(item->name, s);
+    break;
+
+  case 2:
+    item->description = malloc(sizeof(item) + 10);
+    strcpy(item->description, s);
+    break;
+  }
+  while(getchar() != '\n');
+
 }
 
 
@@ -209,6 +270,7 @@ char ask_char_question(char *question, char *answer){
 }
 
 int main(int argc, char *argv[]){
+  
   char *user = "guest";
   if(argc == 2){
       user = argv[1];
