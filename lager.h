@@ -16,6 +16,7 @@ void add_to_db(DB db, Item v);
 void add_item(DB db);
 
 void assignLocation(DB db);
+
 bool ask_int(char *question, Item item);
 void ask_name(char *question, Item item);
 bool ask_yes_no(char* question);
