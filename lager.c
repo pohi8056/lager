@@ -53,17 +53,17 @@ void print_item(Item i){
 
   char *itemName = i->name;
   char *desc = i->description;
-  //char *shelf = i->location->shelf;
+  char shelf = i->location->shelf;
 
-  //int place = i->location->place;
+  int place = i->location->place;
   int price = i->price;
   int amount = i->amount;
 
   printf("Item: %s \n",itemName);
   printf("Description: %s \n",desc);
-  // printf("Shelf: %c \n",*shelf);
+   printf("Shelf: %c \n",shelf);
 
-  //printf("Place: %d \n",place);
+  printf("Place: %d \n",place);
   printf("Amount: %d \n",amount);
   printf("Price: $%d\n", price);
   printf("Total value: $%d\n",price*amount);
@@ -89,23 +89,24 @@ void print_main_menu(char *name){
 }
 
 void assignLocation(DB db, Item item){
-  Location loc = malloc(sizeof(struct location_t)*10);
+  item->location = malloc(sizeof(struct location_t)*10);
   char *shelfs = "ABCD";
   int place = 0;
   char *tempSave;
   
   for(int i = 0; db->inventory[i] != NULL; i++){
+    printf("ENTERED");
     for(int j = 0; j < 3; j++){
       for(int k = 0; k < 3; k++){
 	tempSave = &shelfs[j];
 	place = k;
 
 	if(db->inventory[i] == NULL){
-	  item->loc->shelf = *tempSave;
-	  item->loc->place = place;
+	  item->location->shelf = *tempSave;
+	  item->location->place = place;
 	  printf("%s", tempSave);
 	  printf("%d", place);
-	  item->loc->place
+	  //item->loc->place
 	  break;
 	}
       }
@@ -139,7 +140,8 @@ Location createLocation(){
 void add_item(DB db){
   
   Item item = malloc(sizeof(item) * 50);
-  Location loc = malloc(sizeof(struct location_t) * 10);
+  //Location loc = malloc(sizeof(struct location_t) * 10);
+  //  printf("%d", item->location->place);
   bool validInput = false;
   //char lol[200];
   ask_name("Name: ", item, 1);
