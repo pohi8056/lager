@@ -87,8 +87,9 @@ void print_main_menu(char *name){
   printf("________________________________________________________________\n\n");
   printf("\n \n \n \n \n");  
 }
-/*
-void assignLocation(DB db, Item item, Location loc){
+
+void assignLocation(DB db, Item item){
+  Location loc = malloc(sizeof(struct location_t)*10);
   char *shelfs = "ABCD";
   int place = 0;
   char *tempSave;
@@ -100,8 +101,8 @@ void assignLocation(DB db, Item item, Location loc){
 	place = k;
 
 	if(db->inventory[i] == NULL){
-	  item->location->shelf = *tempSave;
-	  item->location->place = place;
+	  item->loc->shelf = *tempSave;
+	  item->loc->place = place;
 	  printf("%s", tempSave);
 	  printf("%d", place);
 	  item->loc->place
@@ -112,7 +113,7 @@ void assignLocation(DB db, Item item, Location loc){
   }
   
 }
-*/
+
 /*
 void assignLocation2(Item item){
   char *shelfs = "ABCD";
@@ -129,12 +130,12 @@ void add_to_db(DB db, Item v){
   db->inventory[db->amount++] = v;
 }
 
-
+/*
 Location createLocation(){
   Location loc = malloc(sizeof(struct location_t));
   return loc;
 }
-
+*/
 void add_item(DB db){
   
   Item item = malloc(sizeof(item) * 50);
@@ -148,7 +149,7 @@ void add_item(DB db){
   ask_int("Price: ", item, 2);
   //item->location->place = malloc(sizeof(item) + 1);
   //strcpy(item->location->place, lol)
-  
+  assignLocation(db, item);
   //loc->place = 2;
   //if(item->location->place == NULL){
   //printf("NO MEMORY");
