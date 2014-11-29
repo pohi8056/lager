@@ -7,7 +7,7 @@
 
 
 struct db_t{
-  Item inventory[10];
+  Item inventory[20];
   int amount;
 };
 
@@ -89,81 +89,50 @@ void print_main_menu(char *name){
 }
 
 void assignLocation(DB db, Item item){
-  item->location = malloc(sizeof(struct location_t)*10);
-  char *shelfs = "ABCD";
+  item->location = malloc(sizeof(struct location_t)*20);
+  char *shelfs = "ABCDEF";
   int place = 0;
-  char *tempSave;
-  
-  for(int i = 0; db->inventory[i] != NULL; i++){
-    printf("ENTERED");
-    for(int j = 0; j < 3; j++){
-      place = j;
-      for(int k = 0; k < 3; k++){
-	tempSave = &shelfs[k];
-	}
+  int j = 0;
+
+  for(int i = 0; i < 20; i++){
+    if(db->inventory[i] != NULL){
+      if(i % 4 == 0 && i != 0){
+	j++;
+	place = 0;
       }
-
-    if(db->inventory[i] == NULL){
-      printf("HAHA GOT OU");
-      db->inventory[i]->location->shelf = *tempSave;
-      db->inventory[i]->location->place = place;
-      printf("%s", tempSave);
-      printf("%d", place);
-      //item->loc->place;
+      place++;
+      item->location->place = place;
+      printf("%c\n",shelfs[j]);
+      item->location->shelf = shelfs[j];
     }
-  }
+  }    
 }
 
-/*
-void assignLocation2(Item item){
-  char *shelfs = "ABCD";
-  int place = 0;
-  char *tempSave;
-
-  while
-
-
-}
-*/
 
 void add_to_db(DB db, Item v){
   db->inventory[db->amount++] = v;
 }
 
-/*
-Location createLocation(){
-  Location loc = malloc(sizeof(struct location_t));
-  return loc;
-}
-*/
+
 void add_item(DB db){
   
   Item item = malloc(sizeof(item) * 50);
-  //Location loc = malloc(sizeof(struct location_t) * 10);
-  //  printf("%d", item->location->place);
+
   bool validInput = false;
-  //char lol[200];
   ask_name("Name: ", item, 1);
   ask_name("Description: ", item, 2);
   
   validInput = ask_int("Amount: ", item, 1);
   ask_int("Price: ", item, 2);
-  //item->location->place = malloc(sizeof(item) + 1);
-  //strcpy(item->location->place, lol)
-  assignLocation(db, item);
-  //loc->place = 2;
-  //if(item->location->place == NULL){
-  //printf("NO MEMORY");
-  //}
   while(getchar() != '\n');
   
-  // print_item(item);
   if(validInput == true){
     if(ask_yes_no("Save to database? [Y / N] ")){
       while(getchar() != '\n');
       //*db = item;
       add_to_db(db, item);
-      //assignLocation(db, item);
+      assignLocation(db, item);
+      
 
     }
     else{
