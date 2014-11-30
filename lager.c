@@ -20,6 +20,7 @@ struct location_t{
 struct last_action_t{
   Item latest;
   int latestOp; //1 == added an item, 2 == edited an item, 3 == deleted an item, 0 == latest was undo.
+  int inventoryPosition;
 };
 
 struct item_t{
@@ -36,10 +37,10 @@ bool print_inventory(DB database){
   printf("\n\n______Inventory_____\n");
   for (int i = 0; i < 20; i++) {
     if(database->inventory[i] != NULL){
-    print_item(database->inventory[i]);
-    printf("- - - - - - - - - - \n");
+      print_item(database->inventory[i]);
+      printf("- - - - - - - - - - \n");
     }
-
+    
   }
   printf("____________________\n\n");
   printf("Number of items: %d\n", database->amount);
@@ -88,10 +89,11 @@ void print_main_menu(char *name){
   printf("How may we help you today? \n \n");
   printf("I would like to...\n");
   printf("[1]\t add an item. \n");
-  printf("[2]\t remove an item. \n");
-  printf("[3]\t undo the latest change. \n");
+  printf("[2]\t edit an item. \n");
+  printf("[3]\t remove an item. \n");
   printf("[4]\t list the current inventory.\n");
-  printf("[5]\t exit program.\n");
+  printf("[5]\t undo the latest change. \n");
+  printf("[6]\t exit program.\n");
   printf("________________________________________________________________\n\n");
   printf("\n \n \n \n \n");  
 }
@@ -113,9 +115,8 @@ void undo(DB db, LastAction lastAct){
       //EDIT
       break;
 
-    case 3: //FIX TOMORROW.
-      assignLocation(db, lastAct->latest); 
-      add_to_db(db, lastAct->latest);
+    case 3:
+      readd_to_db(db, lastAct);
       lastAct->latestOp = 0;
       break;
 
@@ -123,15 +124,24 @@ void undo(DB db, LastAction lastAct){
       
       break;
     }
-
-
-
-  }else{
+  }
+  else{
     printf("No operation made yet!");
   }
-
-  
 }
+/*
+Item search_item(DB db, char *s){
+  for(int i = 0; i < 20; i++){
+    if(db->inventory[i] != NULL){
+      if(strcmp(db->inventory[i]->name, s) == 0){
+	return db->inventory[i];
+	break;
+      }
+    }
+  }
+}
+*/
+
 
 
 
@@ -140,6 +150,7 @@ void delete_by_name(DB db, char *s, LastAction lastAct){
     if(db->inventory[i] != NULL){
       if(strcmp(db->inventory[i]->name, s) == 0){
 	lastAct->latest = db->inventory[i];
+	lastAct->inventoryPosition = i;
 	db->inventory[i] = NULL;
 	db->amount--;
 	break;
@@ -155,6 +166,7 @@ void delete_by_location(DB db, char shelf, int place, LastAction lastAct){
       printf("%c", db->inventory[i]->location->shelf);
       if(db->inventory[i]->location->shelf == toupper(shelf) && db->inventory[i]->location->place == place){
 	lastAct->latest = db->inventory[i];
+	lastAct->inventoryPosition = i;
 	db->inventory[i] = NULL;
 	db->amount--;
 	break;
@@ -191,7 +203,6 @@ void delete_item(DB db, LastAction lastAct){
     printf("IM HEREEEE");
     lastAct->latestOp = 3;
   }
-
 }
 
 
@@ -221,33 +232,34 @@ void add_to_db(DB db, Item v){
 }
 
 
+void readd_to_db(DB db, LastAction lastAct){
+  db->inventory[lastAct->inventoryPosition] = lastAct->latest;
+  db->amount++;
+}
+
+
 void copy_to_last_action(Item item, LastAction lastAct){
   lastAct->latest = malloc(sizeof(struct item_t) * 10);
   lastAct->latest->name = malloc(sizeof(char) * 20);
   lastAct->latest->description = malloc(sizeof(char) * 30);
-  // lastAct->latest->location = malloc(sizeof(struct location_t) * 2);
+  lastAct->latest->location = malloc(sizeof(struct location_t) * 2);
 
   strcpy(lastAct->latest->name, item->name);
   strcpy(lastAct->latest->description, item->description);
   lastAct->latest->price = item->price;
   lastAct->latest->amount = item->amount;
-  // lastAct->latest->location->place = item->location->place;
-  //lastAct->latest->location->shelf = item->location->shelf;
+  lastAct->latest->location->place = item->location->place;
+  lastAct->latest->location->shelf = item->location->shelf;
 }
 
 void add_item(DB db, LastAction lastAct){
   
   Item item = malloc(sizeof(struct item_t) * 50);
-
   bool validInput = false;
-
   ask_name("Name: ", item, 1);
   ask_name("Description: ", item, 2);
-
-
   validInput = ask_int("Amount: ", item, 1);
   ask_int("Price: ", item, 2);
-
 
   while(getchar() != '\n');
   
@@ -257,7 +269,6 @@ void add_item(DB db, LastAction lastAct){
       add_to_db(db, item);
       assignLocation(db, item);
       copy_to_last_action(item, lastAct);
-      //lastAct->latestOp = malloc(sizeof(int) * 5);
       lastAct->latestOp = 1;
     }
     else{
@@ -269,31 +280,27 @@ void add_item(DB db, LastAction lastAct){
 
 bool ask_int(char *question, Item item, int op){
   int i = 0;
-  //int check = 0;
-  //printf("%s\n", isdigit(amount));
   printf("%s", question);
-  //while(getchar() != '\n');
   scanf("%d", &i);
-  //check = isdigit(amount);
-  //intAmount = atoi(&amount);
-  //printf("%d\n", atoi(&amount));
-  
-  //if(check != 0){
-  switch(op){
+  // char charInt1 = (char)(((int)'0')+i);
 
-  case 1:
-    item->amount = i;
-    break;
-
-  case 2:
-    item->price = i;
-    break;
-  }
+  // if(isdigit(charInt1) && charInt1 != '0'){
+    switch(op){  
+    case 1:
+      item->amount = i;
+      break;
+      
+    case 2:
+      item->price = i;
+      break;
+    }
     return true;
-    //}else{
-    //printf("Invalid input. Integers only. ");
+    
+    // }else{
+    // printf("Input not an integer.\n");
     //return false;
-    //}
+    // }
+
 }
 
 void ask_name(char *question, Item item, int op){
@@ -379,7 +386,8 @@ int main(int argc, char *argv[]){
   while(shouldContinue){
     print_main_menu(user);
     switch(ask_char_question("___________________\nEnter an operation:", "12345")){
-    case '5':
+
+    case '6':
       if(ask_yes_no("Do you really want to exit program?")){
 	shouldContinue = false;
 	break;
@@ -387,17 +395,22 @@ int main(int argc, char *argv[]){
       else{
 	while(getchar() != '\n'); // clear char buffer.
       }
-    case '4': //list inventory
-      while(print_inventory(db)){
-    }
       break;
-    case '3':
+
+    case '5': 
       //undo
       undo(db, latest);
       break;
-    case '2':
+    case '4':
+      while(print_inventory(db)){
+      }
+      break;
+    case '3':
       delete_item(db, latest);
       //remove
+    case '2':
+      //edit
+
       break;
     case '1':
       add_item(db, latest);    //add

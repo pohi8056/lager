@@ -16,6 +16,7 @@ typedef struct location_t *Location;
 void print_main_menu(char *user);
 void undo(DB db, LastAction latest);
 void add_to_db(DB db, Item v);
+void readd_to_db(DB db, LastAction lastAct);
 void add_item(DB db, LastAction latest);
 void delete_by_name(DB db, char *s, LastAction lastAct);
 void delete_by_location(DB db, char shelf, int place, LastAction lastAct);
