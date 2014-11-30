@@ -9,14 +9,18 @@
 struct db_t{
   Item inventory[20];
   int amount;
+  LastAction latest;
 };
-
 
 struct location_t{
   char shelf;
   int place;
 };
 
+struct last_action_t{
+  Item latest;
+  int latestOp; //1 == added an item, 2 == edited an item, 3 == deleted an item, 0 == latest was undo.
+};
 
 struct item_t{
   char *name;
@@ -30,13 +34,16 @@ struct item_t{
 
 bool print_inventory(DB database){
   printf("\n\n______Inventory_____\n");
-  for (int i = 0; i < database->amount; i++) {
+  for (int i = 0; i < 20; i++) {
+    if(database->inventory[i] != NULL){
     print_item(database->inventory[i]);
     printf("- - - - - - - - - - \n");
+    }
 
   }
   printf("____________________\n\n");
-  
+  printf("Number of items: %d\n", database->amount);
+
   while(true){
     if(ask_yes_no("Back to main menu?\n")){
       while(getchar() != '\n');
@@ -61,12 +68,13 @@ void print_item(Item i){
 
   printf("Item: %s \n",itemName);
   printf("Description: %s \n",desc);
-   printf("Shelf: %c \n",shelf);
+  printf("Shelf: %c \n",shelf);
 
   printf("Place: %d \n",place);
   printf("Amount: %d \n",amount);
   printf("Price: $%d\n", price);
   printf("Total value: $%d\n",price*amount);
+
 }
 
 void print_main_menu(char *name){
@@ -87,6 +95,105 @@ void print_main_menu(char *name){
   printf("________________________________________________________________\n\n");
   printf("\n \n \n \n \n");  
 }
+
+
+void undo(DB db, LastAction lastAct){
+  
+  int latestOperation = lastAct->latestOp;
+
+  if(latestOperation != 0){
+    switch(latestOperation){
+   
+    case 1:
+      delete_by_name(db, lastAct->latest->name, lastAct);
+      lastAct->latestOp = 0;
+      break;
+
+    case 2:
+      //EDIT
+      break;
+
+    case 3: //FIX TOMORROW.
+      assignLocation(db, lastAct->latest); 
+      add_to_db(db, lastAct->latest);
+      lastAct->latestOp = 0;
+      break;
+
+    case 0:
+      
+      break;
+    }
+
+
+
+  }else{
+    printf("No operation made yet!");
+  }
+
+  
+}
+
+
+
+void delete_by_name(DB db, char *s, LastAction lastAct){
+  for(int i = 0; i < 20; i++){
+    if(db->inventory[i] != NULL){
+      if(strcmp(db->inventory[i]->name, s) == 0){
+	lastAct->latest = db->inventory[i];
+	db->inventory[i] = NULL;
+	db->amount--;
+	break;
+      }
+    }
+  }
+}
+
+
+void delete_by_location(DB db, char shelf, int place, LastAction lastAct){
+  for(int i = 0; i < 20; i++){
+    if(db->inventory[i] != NULL){
+      printf("%c", db->inventory[i]->location->shelf);
+      if(db->inventory[i]->location->shelf == toupper(shelf) && db->inventory[i]->location->place == place){
+	lastAct->latest = db->inventory[i];
+	db->inventory[i] = NULL;
+	db->amount--;
+	break;
+      }
+    }
+  }
+}
+
+
+void delete_item(DB db, LastAction lastAct){
+  char reply = ask_char_question("Delete by location or name? [L/N]", "LlNn");
+  char shelf;
+  int amountChecker = db->amount;
+  char name[20];
+  char place;
+  switch(reply){
+  case 'l':
+    shelf = ask_char_question("Shelf: ", "AaBbCcDdEeFf");
+    place = ask_char_question("Place: ", "1234");
+    printf("%c %d\n", shelf, atoi(&place));
+    delete_by_location(db, shelf, atoi(&place), lastAct);
+    break;
+
+  case 'n':
+    printf("Name of item to be deleted: ");
+    scanf("%s", name);
+    printf("%s", name);
+    delete_by_name(db, name, lastAct);
+    while(getchar() != '\n');
+    break;
+  }
+
+  if(amountChecker > db->amount){
+    printf("IM HEREEEE");
+    lastAct->latestOp = 3;
+  }
+
+}
+
 
 void assignLocation(DB db, Item item){
   item->location = malloc(sizeof(struct location_t)*20);
@@ -114,26 +221,44 @@ void add_to_db(DB db, Item v){
 }
 
 
-void add_item(DB db){
+void copy_to_last_action(Item item, LastAction lastAct){
+  lastAct->latest = malloc(sizeof(struct item_t) * 10);
+  lastAct->latest->name = malloc(sizeof(char) * 20);
+  lastAct->latest->description = malloc(sizeof(char) * 30);
+  // lastAct->latest->location = malloc(sizeof(struct location_t) * 2);
+
+  strcpy(lastAct->latest->name, item->name);
+  strcpy(lastAct->latest->description, item->description);
+  lastAct->latest->price = item->price;
+  lastAct->latest->amount = item->amount;
+  // lastAct->latest->location->place = item->location->place;
+  //lastAct->latest->location->shelf = item->location->shelf;
+}
+
+void add_item(DB db, LastAction lastAct){
   
-  Item item = malloc(sizeof(item) * 50);
+  Item item = malloc(sizeof(struct item_t) * 50);
 
   bool validInput = false;
+
   ask_name("Name: ", item, 1);
   ask_name("Description: ", item, 2);
-  
+
+
   validInput = ask_int("Amount: ", item, 1);
   ask_int("Price: ", item, 2);
+
+
   while(getchar() != '\n');
   
   if(validInput == true){
     if(ask_yes_no("Save to database? [Y / N] ")){
       while(getchar() != '\n');
-      //*db = item;
       add_to_db(db, item);
       assignLocation(db, item);
-      
-
+      copy_to_last_action(item, lastAct);
+      //lastAct->latestOp = malloc(sizeof(int) * 5);
+      lastAct->latestOp = 1;
     }
     else{
       while(getchar() != '\n');
@@ -247,6 +372,7 @@ int main(int argc, char *argv[]){
       user = argv[1];
     }
   DB db = malloc(sizeof(DB) * 1000);
+  LastAction latest = malloc(sizeof(struct last_action_t)*10);
 
   bool shouldContinue = true;
 
@@ -267,12 +393,14 @@ int main(int argc, char *argv[]){
       break;
     case '3':
       //undo
+      undo(db, latest);
       break;
     case '2':
+      delete_item(db, latest);
       //remove
       break;
     case '1':
-      add_item(db);    //add
+      add_item(db, latest);    //add
       break;      
     default:
       break;

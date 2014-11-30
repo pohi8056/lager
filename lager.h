@@ -7,14 +7,19 @@ typedef struct item_t *Item; //pekare till adress
 struct db_t;
 typedef struct db_t *DB;
 
+struct last_action_t;
+typedef struct last_action_t *LastAction;
+
 struct location_t;
 typedef struct location_t *Location;
 
 void print_main_menu(char *user);
-
+void undo(DB db, LastAction latest);
 void add_to_db(DB db, Item v);
-void add_item(DB db);
-
+void add_item(DB db, LastAction latest);
+void delete_by_name(DB db, char *s, LastAction lastAct);
+void delete_by_location(DB db, char shelf, int place, LastAction lastAct);
+void delete_item(DB db, LastAction lastAct);
 void assignLocation(DB db, Item item);
 bool ask_int(char *question, Item item, int op);
 void ask_name(char *question, Item item, int op);
