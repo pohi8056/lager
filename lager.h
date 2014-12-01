@@ -27,11 +27,15 @@ void ask_name(char *question, Item item, int op);
 bool ask_yes_no(char* question);
 char ask_string_question(char *question);
 char ask_char_question(char *question, char *answer);
-
+Item return_item(DB db, char *s);
 
 void print_item(Item i);
-bool print_inventory(DB database);
+bool print_inventory_loop(DB database);
+void print_inventory(DB database);
 
+void edit_item(DB db, LastAction lastAct);
+void edit_by_name(DB db, char *s, LastAction lastAct);
+void edit_item_parameters(Item i);
 
 
 #endif

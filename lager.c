@@ -32,10 +32,9 @@ struct item_t{
 };
 
 
-
-bool print_inventory(DB database){
+void print_inventory(DB database){
   printf("\n\n______Inventory_____\n");
-  for (int i = 0; i < 20; i++) {
+  for (int i = 0; i < database->amount; i++) {
     if(database->inventory[i] != NULL){
       print_item(database->inventory[i]);
       printf("- - - - - - - - - - \n");
@@ -45,6 +44,12 @@ bool print_inventory(DB database){
   printf("____________________\n\n");
   printf("Number of items: %d\n", database->amount);
 
+}
+
+
+bool print_inventory_loop(DB database){
+  print_inventory(database);
+  
   while(true){
     if(ask_yes_no("Back to main menu?\n")){
       while(getchar() != '\n');
@@ -112,6 +117,8 @@ void undo(DB db, LastAction lastAct){
       break;
 
     case 2:
+      readd_to_db(db, lastAct);
+      lastAct->latestOp = 0;
       //EDIT
       break;
 
@@ -129,24 +136,93 @@ void undo(DB db, LastAction lastAct){
     printf("No operation made yet!");
   }
 }
+
+
+
 /*
-Item search_item(DB db, char *s){
+Item return_item(DB db, char *s){
   for(int i = 0; i < 20; i++){
     if(db->inventory[i] != NULL){
       if(strcmp(db->inventory[i]->name, s) == 0){
 	return db->inventory[i];
+      }
+    }
+  }
+  return NULL;
+  }*/
+
+
+//*********************EDIT************************
+
+
+void edit_item(DB db, LastAction lastAct){
+  char name[20];
+  print_inventory(db);
+  printf("\nWhich item would you like to edit?: ");
+  scanf("%s", name);
+  printf("%s", name);
+  while(getchar() != '\n');
+  edit_by_name(db, name, lastAct);
+  while(getchar() != '\n');
+}
+
+void edit_by_name(DB db, char *s, LastAction lastAct){
+  for(int i = 0; i < db->amount; i++){
+    if(db->inventory[i] != NULL){
+      if(strcmp(db->inventory[i]->name, s) == 0){
+	lastAct->latest = db->inventory[i];
+	lastAct->inventoryPosition = i;
+	lastAct->latestOp = 2;
+	edit_item_parameters(db->inventory[i]);
 	break;
       }
     }
   }
 }
-*/
+
+void edit_item_parameters(Item i){
+  char newString[100];
+  int newInt;
+  print_item(i);
+  printf("\nWhat would you like to edit?\n");
+  switch (ask_char_question("[N]ame,[D]escription,[P]rice,[A]mount","NnDdPpAa")){
+    while(getchar() != '\n');
+  case 'n':
+    printf("\nNew name:");
+    scanf("%s", newString);
+    strcpy(i->name,newString);
+    break;
+  case 'd':
+    printf("\nNew description:");
+    scanf("%s", newString);
+    strcpy(i->description,newString);
+    break;
+  case 'p':
+    printf("\nNew price:");
+    scanf("%d", &newInt);
+    i->price = newInt;
+    break;
+  case 'a':
+    printf("\nNew name:");
+    scanf("%d", &newInt);
+    i->amount = newInt;
+    break;
+  default:
+    break;
+      }
+
+}
+
+void edit_string(Item i){
+  
+}
 
 
+//*********************EDIT************************
 
 
 void delete_by_name(DB db, char *s, LastAction lastAct){
-  for(int i = 0; i < 20; i++){
+  for(int i = 0; i < db->amount; i++){
     if(db->inventory[i] != NULL){
       if(strcmp(db->inventory[i]->name, s) == 0){
 	lastAct->latest = db->inventory[i];
@@ -402,7 +478,7 @@ int main(int argc, char *argv[]){
       undo(db, latest);
       break;
     case '4':
-      while(print_inventory(db)){
+      while(print_inventory_loop(db)){
       }
       break;
     case '3':
@@ -410,7 +486,7 @@ int main(int argc, char *argv[]){
       //remove
     case '2':
       //edit
-
+      edit_item(db,latest);
       break;
     case '1':
       add_item(db, latest);    //add
