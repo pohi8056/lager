@@ -34,7 +34,7 @@ struct item_t{
 
 void print_inventory(DB database){
   printf("\n\n______Inventory_____\n");
-  for (int i = 0; i < database->amount; i++) {
+  for (int i = 0; i <= database->amount; i++) {
     if(database->inventory[i] != NULL){
       print_item(database->inventory[i]);
       printf("- - - - - - - - - - \n");
@@ -471,6 +471,7 @@ int main(int argc, char *argv[]){
       break;
     case '3':
       delete_item(db, latest);
+      break;
       //remove
     case '2':
       //edit
