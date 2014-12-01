@@ -6,6 +6,16 @@
 #include "lager.h"
 
 
+/**
+ * @file lager.c
+ * @author Pontus Hilding
+ * @author Lukas Hamberg
+ * @date 1 Dec 2014
+ * @brief A simple inventory database.
+ *
+ *
+ * @see http://auportal.herokuapp.com/lectures/28
+ */
 struct db_t{
   Item inventory[20];
   int amount;
@@ -446,7 +456,7 @@ int main(int argc, char *argv[]){
 
   while(shouldContinue){
     print_main_menu(user);
-    switch(ask_char_question("___________________\nEnter an operation:", "12345")){
+    switch(ask_char_question("___________________\nEnter an operation:", "123456")){
 
     case '6':
       if(ask_yes_no("Do you really want to exit program?")){
