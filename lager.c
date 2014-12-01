@@ -49,7 +49,7 @@ void print_inventory(DB database){
       print_item(database->inventory[i]);
       printf("- - - - - - - - - - \n");
     }
-    
+
   }
   printf("____________________\n\n");
   printf("Number of items: %d\n", database->amount);
@@ -127,9 +127,8 @@ void undo(DB db, LastAction lastAct){
       break;
 
     case 2:
-      printf("IM HERE");
-      // delete_by_name(db, lastAct->latest->name, lastAct);
       readd_to_db(db, lastAct);
+      db->amount--;
       lastAct->latestOp = 0;
       //EDIT
       break;
@@ -228,6 +227,7 @@ void edit_item_parameters(Item i){
 
 
 //*********************EDIT************************
+
 
 
 void delete_by_name(DB db, char *s, LastAction lastAct){
