@@ -34,7 +34,7 @@ struct item_t{
 
 void print_inventory(DB database){
   printf("\n\n______Inventory_____\n");
-  for (int i = 0; i < database->amount; i++) {
+  for (int i = 0; i <= database->amount; i++) {
     if(database->inventory[i] != NULL){
       print_item(database->inventory[i]);
       printf("- - - - - - - - - - \n");
@@ -138,6 +138,18 @@ void undo(DB db, LastAction lastAct){
 }
 
 
+
+/*
+Item return_item(DB db, char *s){
+  for(int i = 0; i < 20; i++){
+    if(db->inventory[i] != NULL){
+      if(strcmp(db->inventory[i]->name, s) == 0){
+	return db->inventory[i];
+      }
+    }
+  }
+  return NULL;
+  }*/
 
 
 //*********************EDIT************************
