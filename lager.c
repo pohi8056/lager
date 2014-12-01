@@ -117,6 +117,8 @@ void undo(DB db, LastAction lastAct){
       break;
 
     case 2:
+      printf("IM HERE");
+      // delete_by_name(db, lastAct->latest->name, lastAct);
       readd_to_db(db, lastAct);
       lastAct->latestOp = 0;
       //EDIT
@@ -169,7 +171,7 @@ void edit_by_name(DB db, char *s, LastAction lastAct){
   for(int i = 0; i < db->amount; i++){
     if(db->inventory[i] != NULL){
       if(strcmp(db->inventory[i]->name, s) == 0){
-	lastAct->latest = db->inventory[i];
+	copy_to_last_action(db->inventory[i], lastAct);
 	lastAct->inventoryPosition = i;
 	lastAct->latestOp = 2;
 	edit_item_parameters(db->inventory[i]);

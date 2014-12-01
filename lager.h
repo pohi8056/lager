@@ -28,7 +28,7 @@ bool ask_yes_no(char* question);
 char ask_string_question(char *question);
 char ask_char_question(char *question, char *answer);
 Item return_item(DB db, char *s);
-
+void copy_to_last_action(Item item, LastAction lastAct);
 void print_item(Item i);
 bool print_inventory_loop(DB database);
 void print_inventory(DB database);
