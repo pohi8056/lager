@@ -1,7 +1,29 @@
 #ifndef LAGER_H
 #define LAGER_H
 
+/**
+ * @file lager.h
+ * @author Pontus Hilding
+ * @author Lukas Hamberg
+ * @date 1 Dec 2014
+ * @brief A simple inventory database.
+ *
+ *
+ *
+ *
+ * @see http://auportal.herokuapp.com/lectures/28
+ */
+
+
+/**
+ * A structure to represent a database.
+ */
 struct item_t;
+
+
+/**
+ * A structure to represent a database.
+ */
 typedef struct item_t *Item; //pekare till adress
 
 struct db_t;
