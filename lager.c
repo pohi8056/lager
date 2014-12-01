@@ -371,9 +371,9 @@ void add_item(DB db, LastAction lastAct){
 
 bool ask_int(char *question, Item item, int op){
   int i = 0;
-  char garbage;
+  char tempChar;
   printf("%s", question);
-  if(scanf("%d%c", &i, &garbage) != 2 || garbage != '\n'){
+  if(scanf("%d%c", &i, &tempChar) != 2 || tempChar != '\n'){
     printf("Input not an integer.\n");
     return false;
   }
