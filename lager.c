@@ -164,18 +164,6 @@ void undo(DB db, LastAction lastAct){
 
 
 
-/*
-Item return_item(DB db, char *s){
-  for(int i = 0; i < 20; i++){
-    if(db->inventory[i] != NULL){
-      if(strcmp(db->inventory[i]->name, s) == 0){
-	return db->inventory[i];
-      }
-    }
-  }
-  return NULL;
-  }*/
-
 
 //*********************EDIT************************
 
