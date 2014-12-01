@@ -143,8 +143,6 @@ Item search_item(DB db, char *s){
 */
 
 
-
-
 void delete_by_name(DB db, char *s, LastAction lastAct){
   for(int i = 0; i < 20; i++){
     if(db->inventory[i] != NULL){
@@ -255,36 +253,44 @@ void copy_to_last_action(Item item, LastAction lastAct){
 void add_item(DB db, LastAction lastAct){
   
   Item item = malloc(sizeof(struct item_t) * 50);
-  bool validInput = false;
+  bool validAmount = false;
+  bool validPrice = false;
   ask_name("Name: ", item, 1);
   ask_name("Description: ", item, 2);
-  validInput = ask_int("Amount: ", item, 1);
-  ask_int("Price: ", item, 2);
 
-  while(getchar() != '\n');
-  
-  if(validInput == true){
-    if(ask_yes_no("Save to database? [Y / N] ")){
+  validAmount = ask_int("Amount: ", item, 1);
+  if(validAmount == true){
+    validPrice = ask_int("Price: ", item, 2);
+    if(validPrice == true){
+      if(ask_yes_no("Save to database? [Y / N] ")){
+	while(getchar() != '\n');
+	add_to_db(db, item);
+	assignLocation(db, item);
+	copy_to_last_action(item, lastAct);
+	lastAct->latestOp = 1;
+      }
+      else{
+	while(getchar() != '\n');
+      }
+    }else{
       while(getchar() != '\n');
-      add_to_db(db, item);
-      assignLocation(db, item);
-      copy_to_last_action(item, lastAct);
-      lastAct->latestOp = 1;
     }
-    else{
-      while(getchar() != '\n');
-    }
+  }else{
+    while(getchar() != '\n');
   }
 }
 
 
+
 bool ask_int(char *question, Item item, int op){
   int i = 0;
+  char garbage;
   printf("%s", question);
-  scanf("%d", &i);
-  // char charInt1 = (char)(((int)'0')+i);
-
-  // if(isdigit(charInt1) && charInt1 != '0'){
+  if(scanf("%d%c", &i, &garbage) != 2 || garbage != '\n'){
+    printf("Input not an integer.\n");
+    return false;
+  }
+  else{
     switch(op){  
     case 1:
       item->amount = i;
@@ -295,12 +301,7 @@ bool ask_int(char *question, Item item, int op){
       break;
     }
     return true;
-    
-    // }else{
-    // printf("Input not an integer.\n");
-    //return false;
-    // }
-
+  }
 }
 
 void ask_name(char *question, Item item, int op){
@@ -323,21 +324,6 @@ void ask_name(char *question, Item item, int op){
 }
 
 
-/*
-char ask_string_question(char *question){
-  char reply[50];
-  item->name = malloc(sizeof(char) * 100);
-  printf("%s \n", question);
-  while(true){
-    scanf("%s", reply);
-    strcpy(item->name, reply)
-    if(reply != '\0'){
-      return reply;
-    }
-    printf("Invalid answer.");
-  }
-}
-*/
 
 
 bool ask_yes_no(char* question){
