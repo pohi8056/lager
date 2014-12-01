@@ -139,18 +139,6 @@ void undo(DB db, LastAction lastAct){
 
 
 
-/*
-Item return_item(DB db, char *s){
-  for(int i = 0; i < 20; i++){
-    if(db->inventory[i] != NULL){
-      if(strcmp(db->inventory[i]->name, s) == 0){
-	return db->inventory[i];
-      }
-    }
-  }
-  return NULL;
-  }*/
-
 
 //*********************EDIT************************
 
@@ -160,7 +148,6 @@ void edit_item(DB db, LastAction lastAct){
   print_inventory(db);
   printf("\nWhich item would you like to edit?: ");
   scanf("%s", name);
-  printf("%s", name);
   while(getchar() != '\n');
   edit_by_name(db, name, lastAct);
   while(getchar() != '\n');
@@ -179,6 +166,7 @@ void edit_by_name(DB db, char *s, LastAction lastAct){
     }
   }
 }
+
 
 void edit_item_parameters(Item i){
   char newString[100];
@@ -203,7 +191,7 @@ void edit_item_parameters(Item i){
     i->price = newInt;
     break;
   case 'a':
-    printf("\nNew name:");
+    printf("\nNew amount:");
     scanf("%d", &newInt);
     i->amount = newInt;
     break;
@@ -213,9 +201,6 @@ void edit_item_parameters(Item i){
 
 }
 
-void edit_string(Item i){
-  
-}
 
 
 //*********************EDIT************************
@@ -461,19 +446,17 @@ int main(int argc, char *argv[]){
       }
       break;
 
-    case '5': 
-      //undo
+    case '5':                  //undo
       undo(db, latest);
       break;
-    case '4':
+    case '4':                  //list
       while(print_inventory_loop(db)){
       }
       break;
     case '3':
-      delete_item(db, latest);
-      //remove
-    case '2':
-      //edit
+      delete_item(db, latest); //remove
+      break;
+    case '2':                  //edit
       edit_item(db,latest);
       break;
     case '1':
