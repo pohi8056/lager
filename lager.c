@@ -14,7 +14,13 @@
  * @brief A simple inventory database.
  *
  *
+ *
  * @see http://auportal.herokuapp.com/lectures/28
+ */
+
+
+/**
+ * A structure to represent a database.
  */
 struct db_t{
   Item inventory[20];
@@ -22,11 +28,19 @@ struct db_t{
   LastAction latest;
 };
 
+
+/**
+ * A structure to represent a location.
+ */
 struct location_t{
   char shelf;
   int place;
 };
 
+
+/**
+ * A structure to represent a location.
+ */
 struct last_action_t{
   Item latest;
   int latestOp; //1 == added an item, 2 == edited an item, 3 == deleted an item, 0 == latest was undo.
