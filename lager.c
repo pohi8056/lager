@@ -7,17 +7,21 @@
 
 
 struct db_t{
-  Item inventory[10];
+  Item inventory[20];
   int amount;
-  int MAX;
+  LastAction latest;
 };
-
 
 struct location_t{
   char shelf;
   int place;
 };
 
+struct last_action_t{
+  Item latest;
+  int latestOp; //1 == added an item, 2 == edited an item, 3 == deleted an item, 0 == latest was undo.
+  int inventoryPosition;
+};
 
 struct item_t{
   char *name;
@@ -31,13 +35,16 @@ struct item_t{
 
 bool print_inventory(DB database){
   printf("\n\n______Inventory_____\n");
-  for (int i = 0; i < database->amount; i++) {
-    print_item(database->inventory[i]);
-    printf("- - - - - - - - - - \n");
-
+  for (int i = 0; i < 20; i++) {
+    if(database->inventory[i] != NULL){
+      print_item(database->inventory[i]);
+      printf("- - - - - - - - - - \n");
+    }
+    
   }
   printf("____________________\n\n");
-  
+  printf("Number of items: %d\n", database->amount);
+
   while(true){
     if(ask_yes_no("Back to main menu?\n")){
       while(getchar() != '\n');
@@ -68,6 +75,7 @@ void print_item(Item i){
   printf("Amount: %d \n",amount);
   printf("Price: $%d\n", price);
   printf("Total value: $%d\n",price*amount);
+
 }
 
 void print_main_menu(char *name){
@@ -81,101 +89,187 @@ void print_main_menu(char *name){
   printf("How may we help you today? \n \n");
   printf("I would like to...\n");
   printf("[1]\t add an item. \n");
-  printf("[2]\t remove an item. \n");
-  printf("[3]\t undo the latest change. \n");
+  printf("[2]\t edit an item. \n");
+  printf("[3]\t remove an item. \n");
   printf("[4]\t list the current inventory.\n");
-  printf("[5]\t exit program.\n");
+  printf("[5]\t undo the latest change. \n");
+  printf("[6]\t exit program.\n");
   printf("________________________________________________________________\n\n");
   printf("\n \n \n \n \n");  
 }
 
-void assignLocation(DB db, Item item){
-  item->location = malloc(sizeof(struct location_t)*10);
-  char *shelfs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  int place = 0;
-  char *tempSave;
-  int len = db->amount;
+
+void undo(DB db, LastAction lastAct){
   
-  for (i = 0; i < len; i++) {
-    if(db->inventory[i] == NULL){
-      db->inventory
+  int latestOperation = lastAct->latestOp;
+
+  if(latestOperation != 0){
+    switch(latestOperation){
+   
+    case 1:
+      delete_by_name(db, lastAct->latest->name, lastAct);
+      lastAct->latestOp = 0;
+      break;
+
+    case 2:
+      //EDIT
+      break;
+
+    case 3:
+      readd_to_db(db, lastAct);
+      lastAct->latestOp = 0;
+      break;
+
+    case 0:
+      
+      break;
     }
-    
   }
-
-
+  else{
+    printf("No operation made yet!");
+  }
 }
- /*  
-  for(int i = 0; db->inventory[i] != NULL; i++){
-    printf("ENTERED");
-    for(int j = 0; j < 3; j++){
-      place = j;
-      for(int k = 0; k < 3; k++){
-	tempSave = &shelfs[k];
-	if(db->inventory[i] == NULL){
-	  printf("HAHA GOT OU");
-	  db->inventory[i]->location->shelf = *tempSave;
-	  db->inventory[i]->location->place = place;
-	  printf("%s", tempSave);
-	  printf("%d", place);	
-	}
+/*
+Item search_item(DB db, char *s){
+  for(int i = 0; i < 20; i++){
+    if(db->inventory[i] != NULL){
+      if(strcmp(db->inventory[i]->name, s) == 0){
+	return db->inventory[i];
+	break;
       }
     }
-    }*/
-
-
-/*
-void assignLocation2(Item item){
-  char *shelfs = "ABCD";
-  int place = 0;
-  char *tempSave;
-
-  while
-
-
+  }
 }
 */
 
+
+
+
+void delete_by_name(DB db, char *s, LastAction lastAct){
+  for(int i = 0; i < 20; i++){
+    if(db->inventory[i] != NULL){
+      if(strcmp(db->inventory[i]->name, s) == 0){
+	lastAct->latest = db->inventory[i];
+	lastAct->inventoryPosition = i;
+	db->inventory[i] = NULL;
+	db->amount--;
+	break;
+      }
+    }
+  }
+}
+
+
+void delete_by_location(DB db, char shelf, int place, LastAction lastAct){
+  for(int i = 0; i < 20; i++){
+    if(db->inventory[i] != NULL){
+      printf("%c", db->inventory[i]->location->shelf);
+      if(db->inventory[i]->location->shelf == toupper(shelf) && db->inventory[i]->location->place == place){
+	lastAct->latest = db->inventory[i];
+	lastAct->inventoryPosition = i;
+	db->inventory[i] = NULL;
+	db->amount--;
+	break;
+      }
+    }
+  }
+}
+
+
+void delete_item(DB db, LastAction lastAct){
+  char reply = ask_char_question("Delete by location or name? [L/N]", "LlNn");
+  char shelf;
+  int amountChecker = db->amount;
+  char name[20];
+  char place;
+  switch(reply){
+  case 'l':
+    shelf = ask_char_question("Shelf: ", "AaBbCcDdEeFf");
+    place = ask_char_question("Place: ", "1234");
+    printf("%c %d\n", shelf, atoi(&place));
+    delete_by_location(db, shelf, atoi(&place), lastAct);
+    break;
+
+  case 'n':
+    printf("Name of item to be deleted: ");
+    scanf("%s", name);
+    printf("%s", name);
+    delete_by_name(db, name, lastAct);
+    while(getchar() != '\n');
+    break;
+  }
+
+  if(amountChecker > db->amount){
+    printf("IM HEREEEE");
+    lastAct->latestOp = 3;
+  }
+}
+
+
+void assignLocation(DB db, Item item){
+  item->location = malloc(sizeof(struct location_t)*20);
+  char *shelfs = "ABCDEF";
+  int place = 0;
+  int j = 0;
+
+  for(int i = 0; i < 20; i++){
+    if(db->inventory[i] != NULL){
+      if(i % 4 == 0 && i != 0){
+	j++;
+	place = 0;
+      }
+      place++;
+      item->location->place = place;
+      printf("%c\n",shelfs[j]);
+      item->location->shelf = shelfs[j];
+    }
+  }    
+}
+
+
 void add_to_db(DB db, Item v){
-  //assert(amount <= );
   db->inventory[db->amount++] = v;
 }
 
-/*
-Location createLocation(){
-  Location loc = malloc(sizeof(struct location_t));
-  return loc;
+
+void readd_to_db(DB db, LastAction lastAct){
+  db->inventory[lastAct->inventoryPosition] = lastAct->latest;
+  db->amount++;
 }
-*/
-void add_item(DB db){
+
+
+void copy_to_last_action(Item item, LastAction lastAct){
+  lastAct->latest = malloc(sizeof(struct item_t) * 10);
+  lastAct->latest->name = malloc(sizeof(char) * 20);
+  lastAct->latest->description = malloc(sizeof(char) * 30);
+  lastAct->latest->location = malloc(sizeof(struct location_t) * 2);
+
+  strcpy(lastAct->latest->name, item->name);
+  strcpy(lastAct->latest->description, item->description);
+  lastAct->latest->price = item->price;
+  lastAct->latest->amount = item->amount;
+  lastAct->latest->location->place = item->location->place;
+  lastAct->latest->location->shelf = item->location->shelf;
+}
+
+void add_item(DB db, LastAction lastAct){
   
-  Item item = malloc(sizeof(item) * 50);
-  //Location loc = malloc(sizeof(struct location_t) * 10);
-  //  printf("%d", item->location->place);
+  Item item = malloc(sizeof(struct item_t) * 50);
   bool validInput = false;
-  //char lol[200];
   ask_name("Name: ", item, 1);
   ask_name("Description: ", item, 2);
-  
   validInput = ask_int("Amount: ", item, 1);
   ask_int("Price: ", item, 2);
-  //item->location->place = malloc(sizeof(item) + 1);
-  //strcpy(item->location->place, lol)
-  assignLocation(db, item);
-  //loc->place = 2;
-  //if(item->location->place == NULL){
-  //printf("NO MEMORY");
-  //}
+
   while(getchar() != '\n');
   
-  // print_item(item);
   if(validInput == true){
     if(ask_yes_no("Save to database? [Y / N] ")){
       while(getchar() != '\n');
-      //*db = item;
       add_to_db(db, item);
-      //assignLocation(db, item);
-
+      assignLocation(db, item);
+      copy_to_last_action(item, lastAct);
+      lastAct->latestOp = 1;
     }
     else{
       while(getchar() != '\n');
@@ -186,31 +280,27 @@ void add_item(DB db){
 
 bool ask_int(char *question, Item item, int op){
   int i = 0;
-  //int check = 0;
-  //printf("%s\n", isdigit(amount));
   printf("%s", question);
-  //while(getchar() != '\n');
   scanf("%d", &i);
-  //check = isdigit(amount);
-  //intAmount = atoi(&amount);
-  //printf("%d\n", atoi(&amount));
-  
-  //if(check != 0){
-  switch(op){
+  // char charInt1 = (char)(((int)'0')+i);
 
-  case 1:
-    item->amount = i;
-    break;
-
-  case 2:
-    item->price = i;
-    break;
-  }
+  // if(isdigit(charInt1) && charInt1 != '0'){
+    switch(op){  
+    case 1:
+      item->amount = i;
+      break;
+      
+    case 2:
+      item->price = i;
+      break;
+    }
     return true;
-    //}else{
-    //printf("Invalid input. Integers only. ");
+    
+    // }else{
+    // printf("Input not an integer.\n");
     //return false;
-    //}
+    // }
+
 }
 
 void ask_name(char *question, Item item, int op){
@@ -289,14 +379,15 @@ int main(int argc, char *argv[]){
       user = argv[1];
     }
   DB db = malloc(sizeof(DB) * 1000);
-  db->MAX = 10;
+  LastAction latest = malloc(sizeof(struct last_action_t)*10);
 
   bool shouldContinue = true;
 
   while(shouldContinue){
     print_main_menu(user);
     switch(ask_char_question("___________________\nEnter an operation:", "12345")){
-    case '5':
+
+    case '6':
       if(ask_yes_no("Do you really want to exit program?")){
 	shouldContinue = false;
 	break;
@@ -304,18 +395,25 @@ int main(int argc, char *argv[]){
       else{
 	while(getchar() != '\n'); // clear char buffer.
       }
-    case '4': //list inventory
+      break;
+
+    case '5': 
+      //undo
+      undo(db, latest);
+      break;
+    case '4':
       while(print_inventory(db)){
-    }
+      }
       break;
     case '3':
-      //undo
-      break;
-    case '2':
+      delete_item(db, latest);
       //remove
+    case '2':
+      //edit
+
       break;
     case '1':
-      add_item(db);    //add
+      add_item(db, latest);    //add
       break;      
     default:
       break;
