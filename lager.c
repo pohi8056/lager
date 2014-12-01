@@ -9,6 +9,7 @@
 struct db_t{
   Item inventory[10];
   int amount;
+  int MAX;
 };
 
 
@@ -61,7 +62,7 @@ void print_item(Item i){
 
   printf("Item: %s \n",itemName);
   printf("Description: %s \n",desc);
-   printf("Shelf: %c \n",shelf);
+  printf("Shelf: %c \n",shelf);
 
   printf("Place: %d \n",place);
   printf("Amount: %d \n",amount);
@@ -90,29 +91,38 @@ void print_main_menu(char *name){
 
 void assignLocation(DB db, Item item){
   item->location = malloc(sizeof(struct location_t)*10);
-  char *shelfs = "ABCD";
+  char *shelfs = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   int place = 0;
   char *tempSave;
+  int len = db->amount;
   
+  for (i = 0; i < len; i++) {
+    if(db->inventory[i] == NULL){
+      db->inventory
+    }
+    
+  }
+
+
+}
+ /*  
   for(int i = 0; db->inventory[i] != NULL; i++){
     printf("ENTERED");
     for(int j = 0; j < 3; j++){
       place = j;
       for(int k = 0; k < 3; k++){
 	tempSave = &shelfs[k];
+	if(db->inventory[i] == NULL){
+	  printf("HAHA GOT OU");
+	  db->inventory[i]->location->shelf = *tempSave;
+	  db->inventory[i]->location->place = place;
+	  printf("%s", tempSave);
+	  printf("%d", place);	
 	}
       }
-
-    if(db->inventory[i] == NULL){
-      printf("HAHA GOT OU");
-      db->inventory[i]->location->shelf = *tempSave;
-      db->inventory[i]->location->place = place;
-      printf("%s", tempSave);
-      printf("%d", place);
-      //item->loc->place;
     }
-  }
-}
+    }*/
+
 
 /*
 void assignLocation2(Item item){
@@ -127,6 +137,7 @@ void assignLocation2(Item item){
 */
 
 void add_to_db(DB db, Item v){
+  //assert(amount <= );
   db->inventory[db->amount++] = v;
 }
 
@@ -278,6 +289,7 @@ int main(int argc, char *argv[]){
       user = argv[1];
     }
   DB db = malloc(sizeof(DB) * 1000);
+  db->MAX = 10;
 
   bool shouldContinue = true;
 
