@@ -107,15 +107,33 @@ bool ask_int(char *question, Item item, int op);
  * @param op Operation to be made where 1 is update amount and 2 is update price. 
  * @brief Asks user for integer input and validates that the reply is an integer.
  * Requests user input and validates that it contains only integers. If successful validation - updates either amount or price depending on the variable op.
- * @return void
+ * @return bool
  */
-
 void ask_name(char *question, Item item, int op);
 
 
+
+/**
+ * @param question       question printed to the terminal.
+ * @brief Prints a question to the terminal and waits for user input.
+ * A question is printed to the terminal and the user must enter characters representing either
+ * yes or no. A 'yes' will return true, 'no' will return false.
+ * @return bool
+ */
 bool ask_yes_no(char* question);
-char ask_string_question(char *question);
+
+
+
+/**
+ * @param question       question printed to the terminal.
+ * @param answer         array of characters which are valid user input.
+ * @brief Prints a question to the terminal and waits for user input, returning a character from answer.
+ * A question is printed to the terminal and the user must enter one of the characters
+ * specified by answer. The chosen character is then returned by the function.
+ * @return char
+ */
 char ask_char_question(char *question, char *answer);
+
 
 
 /**
