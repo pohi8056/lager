@@ -35,16 +35,57 @@ typedef struct last_action_t *LastAction;
  */
 typedef struct location_t *Location;
 
+
+/**
+ * @param name Name of the user
+ * Prints the programs main menu where the name gives the user a specific welcome.
+ * @return void
+ */
+
 void print_main_menu(char *user);
-void undo(DB db, LastAction latest);
+
+/**
+ * @param db The database with items.
+ * @param lastAct Latest item modified.
+ * @brief Undo latest change.
+ * Reverts the latest change made in the program depending on the latest action made. Can be undoing adding an item, deleting an item or editing an item.
+ * @return void
+ */
+
+void undo(DB db, LastAction lastAct);
+
+/**
+ * @param db The database with items.
+ * @param v Item to be added.
+ * Adds an item to the database and increments the database amount.
+ * @return void
+ */
+
 void add_to_db(DB db, Item v);
+
+/**
+ * @param db The database with items.
+ * @param lastAct Latest item modified.
+ * Re-adds a deleted item to the database from the latest item memory and increments the database amount.
+ * @return void
+ */
+
 void readd_to_db(DB db, LastAction lastAct);
+
+
+/**
+ * @param db The database with items.
+ * @param lastAct Latest item modified.
+ * Asks for user input of item to be added.
+ * @return void
+ */
+
 void add_item(DB db, LastAction latest);
 
 /**
  * @param db The database with items.
  * @param *s  String to be compared.
- * @param lastAct Latest item.
+ * @param lastAct Latest item modified..
  * @brief Removes an item from the database if the database contains s.
  * Iterates through the database to check if string matches an item name.
  * If a match is found, the item gets removed from the database and is stored to the 
@@ -58,7 +99,7 @@ void delete_by_name(DB db, char *s, LastAction lastAct);
  * @param db The database with items.
  * @param shelf The shelf where the item is stored.
  * @param place Place on the shelf.
- * @param lastAct Latest item.
+ * @param lastAct Latest item modified..
  * @brief Removes the item at location shelf and place.
  * Iterates through the database to check if string matches an item location.
  * If a match is found, the item gets removed from the database and is stored to the 
@@ -70,7 +111,7 @@ void delete_by_location(DB db, char shelf, int place, LastAction lastAct);
 
 /**
  * @param db The database with items.
- * @param lastAct Latest item.
+ * @param lastAct Latest item modified..
  * @brief Asks user for either an item to be deleted or a location to be deleted.
  * The user can choose between deleting an item by name or location, in both occourences a question
  * follows asking for either name or location.
