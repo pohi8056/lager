@@ -42,21 +42,28 @@ void testFPRINTF(void)
  * and checks whether the expected characters are present.
  * Must be run after testFPRINTF().
  */
-void testFREAD(void)
+void testASKCHARQUESTION(void)
 {
-   unsigned char buffer[20];
-
-   if (NULL != temp_file) {
-      rewind(temp_file);
-      CU_ASSERT(9 == fread(buffer, sizeof(unsigned char), 20, temp_file));
-      CU_ASSERT(0 == strncmp(buffer, "Q\ni1 = 10", 9));
-   }
+   char buffer1[20];
+   char buffer2[20];
+   char buffer3[20];
+   char buffer4[20];
+   buffer1 = "type Z:";
+   buffer2 = 'zZ';
+   buffer3 = "type A:";
+   buffer4 = 'aA';
+   CU_ASSERT('z' == ask_char_question(buffer1,buffer2));
+   CU_ASSERT('a' == ask_char_question(buffer3,buffer4));
 }
+
+
 
 /* The main() function for setting up and running the tests.
  * Returns a CUE_SUCCESS on successful running, another
  * CUnit error code on failure.
  */
+
+
 int main()
 {
    CU_pSuite pSuite = NULL;
