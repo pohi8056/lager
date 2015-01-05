@@ -1,9 +1,18 @@
-
+#include "lager.h"
 #include <stdio.h>
 #include <string.h>
-#include "CUnit/Basic.h"
-
-
+//#include <CUnit/CUnit.h>
+/*
+#include <CUnit/Basic.h>
+#include <CUnit/Automated.h>
+#include <CUnit/Console.h>
+#include <CUnit/CUError.h>
+#include <CUnit/CUnit_intl.h>
+#include <CUnit/MyMem.h>
+#include <CUnit/TestDB.h>
+#include <CUnit/TestRun.h>
+#include <CUnit/Util.h>
+*/
 /* The suite initialization function.
  * Opens the temporary file used by the tests.
  * Returns zero on success, non-zero otherwise.
@@ -28,13 +37,13 @@ int clean_suite1(void)
  */
 void testFPRINTF(void)
 {
-   int i1 = 10;
-
-   if (NULL != temp_file) {
-      CU_ASSERT(0 == fprintf(temp_file, ""));
-      CU_ASSERT(2 == fprintf(temp_file, "Q\n"));
-      CU_ASSERT(7 == fprintf(temp_file, "i1 = %d", i1));
-   }
+  //   int i1 = 10;
+  //
+  //   if (NULL != temp_file) {
+  //      CU_ASSERT(0 == fprintf(temp_file, ""));
+  //      CU_ASSERT(2 == fprintf(temp_file, "Q\n"));
+  //      CU_ASSERT(7 == fprintf(temp_file, "i1 = %d", i1));
+  //   }
 }
 
 /* Simple test of fread().
@@ -44,14 +53,14 @@ void testFPRINTF(void)
  */
 void testASKCHARQUESTION(void)
 {
-   char buffer1[20];
-   char buffer2[20];
-   char buffer3[20];
-   char buffer4[20];
+   char *buffer1;
+   char *buffer2;
+   char *buffer3;
+   char *buffer4;
    buffer1 = "type Z:";
-   buffer2 = 'zZ';
+   buffer2 = "zZ";
    buffer3 = "type A:";
-   buffer4 = 'aA';
+   buffer4 = "aA";
    CU_ASSERT('z' == ask_char_question(buffer1,buffer2));
    CU_ASSERT('a' == ask_char_question(buffer3,buffer4));
 }
@@ -81,8 +90,7 @@ int main()
 
    /* add the tests to the suite */
    /* NOTE - ORDER IS IMPORTANT - MUST TEST fread() AFTER fprintf() */
-   if ((NULL == CU_add_test(pSuite, "test of fprintf()", testFPRINTF)) ||
-       (NULL == CU_add_test(pSuite, "test of fread()", testFREAD)))
+   if ((NULL == CU_add_test(pSuite, "test of fprintf()", testASKCHARQUESTION)))
    {
       CU_cleanup_registry();
       return CU_get_error();
