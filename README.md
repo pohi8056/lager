@@ -42,7 +42,7 @@ INSTRUCTIONS:
 * make run
 
 #To run tests.
-* make test
+* make run_test
 
 
 FUTURE EXPANSIONS:
