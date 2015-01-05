@@ -14,11 +14,18 @@ A simple inventory database.
 BUILD:
 ---------------------------------------------------------------------
 make:
+
 -all                        make all library .o files 
 -clean                      clean away all generated .o files
 
--run                        run inventory database program.
--run_tests                  run unittests.
+-lager                      build lager.o
+-main                       build main.c
+
+-test                       build lager.c tests.
+-run_test                   run lager.c tests.
+
+
+-run                        run main.c
 
 IMPORTANT NOTES:
 ---------------------------------------------------------------------
@@ -34,8 +41,8 @@ INSTRUCTIONS:
 #To initialize the inventory database.
 * make run
 
-#To run unittests.
-* make run_tests
+#To run tests.
+* make test
 
 
 FUTURE EXPANSIONS:
