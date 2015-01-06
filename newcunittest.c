@@ -122,6 +122,7 @@ void testAdd_to_db() {
 char ask_char_question(char* question, char* answer);
 
 void testAsk_char_question() {
+  
     char* question = "Printed question.";
     char* answer = "DdAaSsGgZz";
     char result1 = ask_char_question(question, answer);
@@ -139,6 +140,7 @@ void testAsk_char_question() {
     CU_ASSERT(result3 == 's');
     CU_ASSERT(result4 == 'g');
     CU_ASSERT(result5 == 'z');
+  
 }
 
 
@@ -149,24 +151,33 @@ void testAsk_int() {
   char* question1 = "Amount: ";
   char* question2 = "Price: ";
 
-  Item item = malloc(sizeof(struct item_t));
+  Item item1 = malloc(sizeof(struct item_t));
+  Item item2 = malloc(sizeof(struct item_t));
+
+
   int op1 = 1;
   int op2 = 2;
 
-  _Bool result1 = ask_int(question1, item, op1);
+  _Bool result1 = ask_int(question1, item1, op1);
   //22
-  _Bool result2 = ask_int(question1, item, op1); //SHOULD FAIL
-  //'g'
-  _Bool result3 = ask_int(question2, item, op2);
+  _Bool result2 = ask_int(question2, item1, op2);
   //33
-  _Bool result4 = ask_int(question2, item, op2); //SHOULD FAIL
+  _Bool result3 = ask_int(question2, item2, op2); //SHOULD FAIL
   //'f'
+  _Bool result4 = ask_int(question1, item2, op1); //SHOULD FAIL
+  //'w'
+
+  CU_ASSERT(item1->amount == 22);
+  CU_ASSERT(item1->price == 33);
+  CU_ASSERT(item2->price == NULL);
+  CU_ASSERT(item2->amount == NULL);
 
   CU_ASSERT(result1);
-  CU_ASSERT(!result2);
-  CU_ASSERT(result3);
+  CU_ASSERT(result2);
+  CU_ASSERT(!result3);
   CU_ASSERT(!result4);
 
+  
   
 }
 
