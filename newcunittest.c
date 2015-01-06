@@ -31,8 +31,8 @@ void add_item(DB db, LastAction latest);
 
 void testAdd_item() {
   printf("ADDITEM\n");
-  DB db = malloc(sizeof(struct db_t) * 20);
-  LastAction latest = malloc(sizeof(struct last_action_t) * 20);
+  DB db = malloc(sizeof(struct db_t) * 30);
+  LastAction latest = malloc(sizeof(struct last_action_t) * 30);
   add_item(db, latest);
   //Pontus
   //Kewl.
@@ -170,14 +170,15 @@ void testAsk_int() {
 
   CU_ASSERT(item1->amount == 22);
   CU_ASSERT(item1->price == 33);
-  CU_ASSERT(item2->price == NULL);
-  CU_ASSERT(item2->amount == NULL);
+
 
   CU_ASSERT(result1);
   CU_ASSERT(result2);
   CU_ASSERT(!result3);
   CU_ASSERT(!result4);
 
+  free(item1);
+  free(item2);
 }
 
 
