@@ -100,11 +100,11 @@ void testAdd_to_db() {
     CU_ASSERT(db2->inventory[i] != NULL);
   }
 
-  CU_ASSERT(db->amount == 6);
-  CU_ASSERT(db->inventory[2]->amount == 33);
-  CU_ASSERT(db->inventory[2]->price == 0);
-  CU_ASSERT(db->inventory[2]->name == "Banana"); //CRITICAL STATEMENT: DO NOT CHANGE
-  CU_ASSERT(db->inventory[2]->description == "Disgusting"); //CRITICAL STATEMENT: DO NOT CHANGE
+  CU_ASSERT(db2->amount == 6);
+  CU_ASSERT(db2->inventory[2]->amount == 33);
+  CU_ASSERT(db2->inventory[2]->price == 0);
+  CU_ASSERT(db2->inventory[2]->name == "Banana"); //CRITICAL STATEMENT: DO NOT CHANGE
+  CU_ASSERT(db2->inventory[2]->description == "Disgusting"); //CRITICAL STATEMENT: DO NOT CHANGE
 
   free(v1);
   free(v2);
