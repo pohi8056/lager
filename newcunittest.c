@@ -120,14 +120,23 @@ void testAdd_to_db() {
 char ask_char_question(char* question, char* answer);
 
 void testAsk_char_question() {
-  /*
-    char* question;
-    char* answer;
-    char result = ask_char_question(question, answer);
-    if (1) {
-        CU_ASSERT(0);
-    }
-  */
+    char* question = "Printed question.";
+    char* answer = "DdAaSsGgZz";
+    char result1 = ask_char_question(question, answer);
+    char result2 = ask_char_question(question, answer);
+    char result3 = ask_char_question(question, answer);
+    char result4 = ask_char_question(question, answer);
+    char result5 = ask_char_question(question, answer);
+    //D
+    //A
+    //s
+    //G
+    //z
+    CU_ASSERT(result1 == 'd');
+    CU_ASSERT(result2 == 'a');
+    CU_ASSERT(result3 == 's');
+    CU_ASSERT(result4 == 'g');
+    CU_ASSERT(result5 == 'z');
 }
 
 
@@ -149,15 +158,11 @@ void testAsk_int() {
 void ask_name(char* question, Item item, int op);
 
 void testAsk_name() {
-  /*
-    char* question;
+  /* char* question;
     Item item;
     int op;
     ask_name(question, item, op);
-    if (1) {
-        CU_ASSERT(0);
-    }
-*/
+    CU_ASSERT(0);*/
 }
 
 
