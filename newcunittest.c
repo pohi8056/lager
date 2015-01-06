@@ -177,8 +177,6 @@ void testAsk_int() {
   CU_ASSERT(!result3);
   CU_ASSERT(!result4);
 
-  
-  
 }
 
 
