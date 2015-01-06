@@ -118,14 +118,12 @@ DB db = malloc(sizeof(db) * 10);
 char ask_char_question(char* question, char* answer);
 
 void testAsk_char_question() {
-  /*
     char* question;
     char* answer;
     char result = ask_char_question(question, answer);
     if (1) {
         CU_ASSERT(0);
     }
-*/
 }
 
 
