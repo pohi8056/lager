@@ -8,7 +8,7 @@ int main(int argc, char *argv[]){
       user = argv[1];
     }
   DB db = malloc(sizeof(DB) * 1000);
-  LastAction latest = malloc(sizeof(struct last_action_t)*10);
+  LastAction latest = malloc(sizeof(LastAction)*10);
 
   bool shouldContinue = true;
 
