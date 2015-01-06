@@ -29,12 +29,23 @@ int clean_suite(void) {
 void add_item(DB db, LastAction latest);
 
 void testAdd_item() {
-    DB db;
-    LastAction latest;
-    add_item(db, latest);
-    if (1 /*check result*/) {
-        CU_ASSERT(0);
-    }
+  DB db = malloc(sizeof(struct db_t) * 20);
+  LastAction latest = malloc(sizeof(struct last_action_t) * 20);
+  add_item(db, latest);
+  //Pontus
+  //Kewl.
+  //1337
+  //101
+  //y
+  CU_ASSERT(db->amount == 1);
+  CU_ASSERT(strcmp(db->inventory[0]->name,"Pontus") == 0);
+  CU_ASSERT(strcmp(db->inventory[0]->description,"Kewl.") == 0);
+  CU_ASSERT(db->inventory[0]->location->shelf == 'A');
+  CU_ASSERT(db->inventory[0]->location->place == 1);
+  CU_ASSERT(db->inventory[0]->price == 101);
+  CU_ASSERT(db->inventory[0]->amount == 1337);
+  free(db);
+  free(latest);
 }
 
 void add_to_db(DB db, Item v);
