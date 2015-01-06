@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include "lager.c"
 
+
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 #include <CUnit/Automated.h>
@@ -29,7 +30,7 @@ int clean_suite(void) {
 void add_item(DB db, LastAction latest);
 
 void testAdd_item() {
-  
+  printf("ADDITEM\n");
   DB db = malloc(sizeof(struct db_t) * 20);
   LastAction latest = malloc(sizeof(struct last_action_t) * 20);
   add_item(db, latest);
@@ -53,6 +54,7 @@ void testAdd_item() {
 void add_to_db(DB db, Item v);
 
 void testAdd_to_db() {
+  printf("ADDTODB\n");
   DB db2 = malloc(sizeof(struct db_t) * 10);
   Item v1 = malloc(sizeof(struct item_t));
   Item v2 = malloc(sizeof(struct item_t));
@@ -122,30 +124,31 @@ void testAdd_to_db() {
 char ask_char_question(char* question, char* answer);
 
 void testAsk_char_question() {
-    char* question = "Printed question.";
-    char* answer = "DdAaSsGgZz";
-    char result1 = ask_char_question(question, answer);
-    char result2 = ask_char_question(question, answer);
-    char result3 = ask_char_question(question, answer);
-    char result4 = ask_char_question(question, answer);
-    char result5 = ask_char_question(question, answer);
-    //D
-    //A
-    //s
-    //G
-    //z
-    CU_ASSERT(result1 == 'd');
-    CU_ASSERT(result2 == 'a');
-    CU_ASSERT(result3 == 's');
-    CU_ASSERT(result4 == 'g');
-    CU_ASSERT(result5 == 'z');
+  printf("ASKCHARQUESTION\n");
+  char* question = "Printed question.";
+  char* answer = "DdAaSsGgZz";
+  char result1 = ask_char_question(question, answer);
+  char result2 = ask_char_question(question, answer);
+  char result3 = ask_char_question(question, answer);
+  char result4 = ask_char_question(question, answer);
+  char result5 = ask_char_question(question, answer);
+  //D
+  //A
+  //s
+  //G
+  //z
+  CU_ASSERT(result1 == 'd');
+  CU_ASSERT(result2 == 'a');
+  CU_ASSERT(result3 == 's');
+  CU_ASSERT(result4 == 'g');
+  CU_ASSERT(result5 == 'z');
 }
 
 
 _Bool ask_int(char* question, Item item, int op);
 
 void testAsk_int() {
-  
+  printf("ASKINT\n");
   char* question1 = "Amount: ";
   char* question2 = "Price: ";
 
