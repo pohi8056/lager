@@ -170,8 +170,7 @@ void testAsk_int() {
 
   CU_ASSERT(item1->amount == 22);
   CU_ASSERT(item1->price == 33);
-  CU_ASSERT(item2->price == NULL);
-  CU_ASSERT(item2->amount == NULL);
+
 
   CU_ASSERT(result1);
   CU_ASSERT(result2);
