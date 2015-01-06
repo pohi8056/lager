@@ -15,41 +15,6 @@
  */
 
 
-/**
- * A structure to represent a database.
- */
-struct db_t{
-  Item inventory[20];
-  int amount;
-  LastAction latest;
-};
-
-
-/**
- * A structure to represent a location.
- */
-struct location_t{
-  char shelf;
-  int place;
-};
-
-
-/**
- * A structure to represent a location.
- */
-struct last_action_t{
-  Item latest;
-  int latestOp; //1 == added an item, 2 == edited an item, 3 == deleted an item, 0 == latest was undo.
-  int inventoryPosition;
-};
-
-struct item_t{
-  char *name;
-  char *description;
-  Location location;
-  int price;
-  int amount;
-};
 
 
 void print_inventory(DB database){
