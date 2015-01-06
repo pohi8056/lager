@@ -136,15 +136,29 @@ void testAsk_char_question() {
 _Bool ask_int(char* question, Item item, int op);
 
 void testAsk_int() {
-  /*
-    char* question;
-    Item item;
-    int op;
-    _Bool result = ask_int(question, item, op);
-    if (1) {
-        CU_ASSERT(0);
-    }
-*/
+  
+  char* question1 = "Amount: ";
+  char* question2 = "Price: ";
+
+  Item item = malloc(sizeof(struct item_t));
+  int op1 = 1;
+  int op2 = 2;
+
+  _Bool result1 = ask_int(question1, item, op1);
+  //22
+  _Bool result2 = ask_int(question1, item, op1); //SHOULD FAIL
+  //'g'
+  _Bool result3 = ask_int(question2, item, op2);
+  //33
+  _Bool result4 = ask_int(question2, item, op2); //SHOULD FAIL
+  //'f'
+
+  CU_ASSERT(result1);
+  CU_ASSERT(!result2);
+  CU_ASSERT(result3);
+  CU_ASSERT(!result4);
+
+  
 }
 
 
