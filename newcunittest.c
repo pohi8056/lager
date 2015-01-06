@@ -10,6 +10,9 @@
 #include "lager.c"
 
 #include <CUnit/CUnit.h>
+#include <CUnit/Basic.h>
+#include <CUnit/Automated.h>
+#include <CUnit/Console.h>
 
 /*
  * CUnit Test Suite
