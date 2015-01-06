@@ -29,6 +29,7 @@ int clean_suite(void) {
 void add_item(DB db, LastAction latest);
 
 void testAdd_item() {
+  
   DB db = malloc(sizeof(struct db_t) * 20);
   LastAction latest = malloc(sizeof(struct last_action_t) * 20);
   add_item(db, latest);
@@ -46,6 +47,7 @@ void testAdd_item() {
   CU_ASSERT(db->inventory[0]->amount == 1337);
   free(db);
   free(latest);
+  
 }
 
 void add_to_db(DB db, Item v);

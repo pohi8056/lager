@@ -15,6 +15,9 @@ main: lager
 test: lager
 	$(CC) $(LINKFLAGS) newcunittest.c -o test -lm -lcunit
 
+testp: lager
+	$(CC) newcunittest.c -o test -lm -lcunit
+
 .PHONY: clean
 
 clean: 
@@ -22,6 +25,9 @@ clean:
 
 
 run_test: test
+	./test < input.txt
+
+run_testp: testp
 	./test < input.txt
 
 run: main
