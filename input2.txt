@@ -1,0 +1,39 @@
+1
+<<<<<<< HEAD
+Pontus
+Kewl guy.
+1337
+101
+y
+=======
+Apple
+Red
+4
+9
+y
+1
+Pear
+Green.
+2
+4
+y
+4
+y
+2
+Apple
+d
+Yellow
+1
+Banana
+Disgusting
+3
+2
+y
+3
+l
+A
+1
+4
+y
+5
+>>>>>>> 2eac809544cf7b67be71d1c6a51ab466473ca09a
