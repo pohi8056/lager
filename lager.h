@@ -1,6 +1,12 @@
 #ifndef LAGER_H
 #define LAGER_H
 
+#include <stdbool.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
 /**
  * @file lager.h
  * @author Pontus Hilding
@@ -18,21 +24,25 @@
 /**
  * A structure to represent an item.
  */
+struct item_t;
 typedef struct item_t *Item; //pekare till adress
 
 /**
  * A structure to represent a database.
  */
+struct db_t;
 typedef struct db_t *DB;
 
 /**
  * A structure to represent the latest change in the database.
  */
+struct last_action_t;
 typedef struct last_action_t *LastAction;
 
 /**
  * A structure to represent an items location in the database.
  */
+struct location_t;
 typedef struct location_t *Location;
 
 
@@ -55,8 +65,8 @@ void print_main_menu(char *user);
 void undo(DB db, LastAction lastAct);
 
 /**
- * @param db The database with items.
- * @param v Item to be added.
+ * @param db The database with items
+ * @param v Item to be added
  * Adds an item to the database and increments the database amount.
  * @return void
  */
@@ -64,8 +74,8 @@ void undo(DB db, LastAction lastAct);
 void add_to_db(DB db, Item v);
 
 /**
- * @param db The database with items.
- * @param lastAct Latest item modified.
+ * @param db The database with items
+ * @param lastAct Latest item modified
  * Re-adds a deleted item to the database from the latest item memory and increments the database amount.
  * @return void
  */
@@ -74,8 +84,8 @@ void readd_to_db(DB db, LastAction lastAct);
 
 
 /**
- * @param db The database with items.
- * @param lastAct Latest item modified.
+ * @param db The database with items
+ * @param lastAct Latest item modified
  * Asks for user input of item to be added.
  * @return void
  */
@@ -85,7 +95,7 @@ void add_item(DB db, LastAction latest);
 /**
  * @param db The database with items.
  * @param *s  String to be compared.
- * @param lastAct Latest item modified..
+ * @param lastAct Latest item modified
  * @brief Removes an item from the database if the database contains s.
  * Iterates through the database to check if string matches an item name.
  * If a match is found, the item gets removed from the database and is stored to the 
