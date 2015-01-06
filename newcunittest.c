@@ -96,6 +96,7 @@ void testAdd_to_db() {
   add_to_db(db2, v5);
   add_to_db(db2, v6);
 
+
   for(int i = 0; i < 6; i++){
     CU_ASSERT(db2->inventory[i] != NULL);
   }
