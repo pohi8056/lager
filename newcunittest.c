@@ -51,7 +51,7 @@ void testAdd_item() {
 void add_to_db(DB db, Item v);
 
 void testAdd_to_db() {
-DB db = malloc(sizeof(db) * 10);
+  DB db2 = malloc(sizeof(struct db_t) * 10);
   Item v1 = malloc(sizeof(struct item_t));
   Item v2 = malloc(sizeof(struct item_t));
   Item v3 = malloc(sizeof(struct item_t));
@@ -89,41 +89,42 @@ DB db = malloc(sizeof(db) * 10);
   v6->price = 3;
   v6->amount = 4;
 
-  add_to_db(db, v1);
-  add_to_db(db, v2);
-  add_to_db(db, v3);
-  add_to_db(db, v4);
-  add_to_db(db, v5);
-  add_to_db(db, v6);
+  add_to_db(db2, v1);
+  add_to_db(db2, v2);
+  add_to_db(db2, v3);
+  add_to_db(db2, v4);
+  add_to_db(db2, v5);
+  add_to_db(db2, v6);
 
   for(int i = 0; i < 6; i++){
-    CU_ASSERT(db->inventory[i] != NULL);
+    CU_ASSERT(db2->inventory[i] != NULL);
   }
 
-  CU_ASSERT(db->amount == 6);
-  CU_ASSERT(db->inventory[2]->amount == 33);
-  CU_ASSERT(db->inventory[2]->price == 0);
-  CU_ASSERT(db->inventory[2]->name == "Banana");
-  CU_ASSERT(db->inventory[2]->description == "Disgusting");
+  CU_ASSERT(db2->amount == 6);
+  CU_ASSERT(db2->inventory[2]->amount == 33);
+  CU_ASSERT(db2->inventory[2]->price == 0);
+  CU_ASSERT(strcmp(db2->inventory[2]->name,"Banana") == 0);
+  CU_ASSERT(strcmp(db2->inventory[2]->description,"Disgusting") == 0);
+		      
   free(v1);
   free(v2);
   free(v3);
   free(v4);
   free(v5);
   free(v6);
-  free(db);
+  free(db2);
 }
 
 
 char ask_char_question(char* question, char* answer);
 
 void testAsk_char_question() {
-    char* question;
+  /*    char* question;
     char* answer;
     char result = ask_char_question(question, answer);
     if (1) {
         CU_ASSERT(0);
-    }
+	}*/
 }
 
 
