@@ -36,34 +36,39 @@ void testAdd_item() {
         CU_ASSERT(0);
     }
 }
-/*
+
 void add_to_db(DB db, Item v);
 
 void testAdd_to_db() {
+  /*
     DB db;
     Item v;
     add_to_db(db, v);
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 char ask_char_question(char* question, char* answer);
 
 void testAsk_char_question() {
+  /*
     char* question;
     char* answer;
     char result = ask_char_question(question, answer);
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 _Bool ask_int(char* question, Item item, int op);
 
 void testAsk_int() {
+  /*
     char* question;
     Item item;
     int op;
@@ -71,12 +76,14 @@ void testAsk_int() {
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 void ask_name(char* question, Item item, int op);
 
 void testAsk_name() {
+  /*
     char* question;
     Item item;
     int op;
@@ -84,47 +91,55 @@ void testAsk_name() {
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 _Bool ask_yes_no(char* question);
 
 void testAsk_yes_no() {
+  /*
     char* question;
     _Bool result = ask_yes_no(question);
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 void assignLocation(DB db, Item item);
 
 void testAssignLocation() {
+  /*
     DB db;
     Item item;
     assignLocation(db, item);
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 void copy_to_last_action(Item item, LastAction lastAct);
 
 void testCopy_to_last_action() {
+  /*
     Item item;
     LastAction lastAct;
     copy_to_last_action(item, lastAct);
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 void delete_by_location(DB db, char shelf, int place, LastAction lastAct);
 
 void testDelete_by_location() {
+  /*
     DB db;
     char shelf;
     int place;
@@ -133,12 +148,14 @@ void testDelete_by_location() {
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 void delete_by_name(DB db, char* s, LastAction lastAct);
 
 void testDelete_by_name() {
+  /*
     DB db;
     char* s;
     LastAction lastAct;
@@ -146,24 +163,28 @@ void testDelete_by_name() {
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 void delete_item(DB db, LastAction lastAct);
 
 void testDelete_item() {
+/*
     DB db;
     LastAction lastAct;
     delete_item(db, lastAct);
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 void edit_by_name(DB db, char* s, LastAction lastAct);
 
 void testEdit_by_name() {
+  /*
     DB db;
     char* s;
     LastAction lastAct;
@@ -171,101 +192,115 @@ void testEdit_by_name() {
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 void edit_item(DB db, LastAction lastAct);
 
 void testEdit_item() {
+  /*
     DB db;
     LastAction lastAct;
     edit_item(db, lastAct);
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 void edit_item_parameters(Item i);
 
 void testEdit_item_parameters() {
+  /*
     Item i;
     edit_item_parameters(i);
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
 void print_inventory(DB database);
 
 void testPrint_inventory() {
-    DB database;
+/*
+DB database;
     print_inventory(database);
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 _Bool print_inventory_loop(DB database);
 
 void testPrint_inventory_loop() {
+  /*
     DB database;
     _Bool result = print_inventory_loop(database);
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 void print_item(Item i);
 
 void testPrint_item() {
+  /*
     Item i;
     print_item(i);
     if (1) {
         CU_ASSERT(0);
     }
+*/
 }
 
-*/
-/*
+
 void print_main_menu(char* user);
 
 void testPrint_main_menu() {
+/*
     char* user;
     print_main_menu(user);
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
-/*
+}
+
+
 void readd_to_db(DB db, LastAction lastAct);
 
 void testReadd_to_db() {
-    DB db;
+  /*    DB db;
     LastAction lastAct;
     readd_to_db(db, lastAct);
     if (1) {
         CU_ASSERT(0);
     }
-}
 */
+}
 
-/*
+
+
 void undo(DB db, LastAction lastAct);
 
 void testUndo() {
+  /*
   DB db;
   LastAction lastAct;
   undo(db, lastAct);
-  if (1 /*check result*/) {
+  if (1) {
     CU_ASSERT(0);
   }
-}
 */
+}
+
 
 int main() {
     CU_pSuite pSuite = NULL;

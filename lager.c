@@ -24,7 +24,6 @@ void print_inventory(DB database){
       print_item(database->inventory[i]);
       printf("- - - - - - - - - - \n");
     }
-
   }
   printf("____________________\n\n");
   printf("Number of items: %d\n", database->amount);

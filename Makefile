@@ -12,8 +12,8 @@ lager:
 main: lager
 	$(CC) $(CFLAGS) main.c lager.o -o main
 
-test: lager
-	$(CC) $(LINKFLAGS) test1.c -o test -lm -lcunit
+test1: lager
+	$(CC) $(LINKFLAGS) test1.c -o test1 -lm -lcunit
 
 test2: lager
 	$(CC) $(LINKFLAGS) newcunittest.c -o test2 -lm -lcunit
@@ -23,8 +23,11 @@ test2: lager
 clean: 
 	rm -f *.o
 
-run_test: test
-	./test
+run_test1: test1
+	./test1
+
+run_test2: test2
+	./test2 < input.txt
 
 run: main
 	./main
