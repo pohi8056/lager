@@ -29,25 +29,80 @@ int clean_suite(void) {
 void add_item(DB db, LastAction latest);
 
 void testAdd_item() {
+  /*
     DB db;
     LastAction latest;
     add_item(db, latest);
-    if (1 /*check result*/) {
+    if (1) {
         CU_ASSERT(0);
     }
+*/
 }
 
 void add_to_db(DB db, Item v);
 
 void testAdd_to_db() {
-  /*
-    DB db;
-    Item v;
-    add_to_db(db, v);
-    if (1) {
-        CU_ASSERT(0);
-    }
-*/
+  DB db = malloc(sizeof(db) * 10);
+  Item v1 = malloc(sizeof(struct item_t));
+  Item v2 = malloc(sizeof(struct item_t));
+  Item v3 = malloc(sizeof(struct item_t));
+  Item v4 = malloc(sizeof(struct item_t));
+  Item v5 = malloc(sizeof(struct item_t));
+  Item v6 = malloc(sizeof(struct item_t));
+
+  v1->name = "Apple";
+  v1->description = "Red";
+  v1->price = 5;
+  v1->amount = 3;
+
+  v2->name = "Pear";
+  v2->description = "Green";
+  v2->price = 2;
+  v2->amount = 5;
+
+  v3->name = "Banana";
+  v3->description = "Disgusting";
+  v3->price = 0;
+  v3->amount = 33;
+
+  v4->name = "Hat";
+  v4->description = "Toppy";
+  v4->price = 1;
+  v4->amount = 2;
+
+  v5->name = "12";
+  v5->description = "13";
+  v5->price = 5;
+  v5->amount = 2;
+
+  v6->name = "Oboy";
+  v6->description = "Sweet";
+  v6->price = 3;
+  v6->amount = 4;
+
+  add_to_db(db, v1);
+  add_to_db(db, v2);
+  add_to_db(db, v3);
+  add_to_db(db, v4);
+  add_to_db(db, v5);
+  add_to_db(db, v6);
+
+  for(int i = 0; i < 6; i++){
+    CU_ASSERT(db->inventory[i] != NULL);
+  }
+
+  CU_ASSERT(db->amount == 6);
+  CU_ASSERT(db->inventory[2]->amount == 33);
+  CU_ASSERT(db->inventory[2]->price == 0);
+  CU_ASSERT(db->inventory[2]->name == "Banana");
+  CU_ASSERT(db->inventory[2]->description == "Disgusting");
+  free(v1);
+  free(v2);
+  free(v3);
+  free(v4);
+  free(v5);
+  free(v6);
+  free(db);
 }
 
 
