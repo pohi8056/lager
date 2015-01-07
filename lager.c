@@ -163,17 +163,11 @@ void edit_item_parameters(Item i){
   case 'n':
     printf("\nNew name:");
     scanf("%s", newString);
-    //TEMP
-    printf("\n \nedit_name temp 167: %s \n",newString);
-    //TEMP
     strcpy(i->name,newString);
     break;
   case 'd':
     printf("\nNew description:");
     scanf("%s", newString);
-    //TEMP
-    printf("\n \nedit_desc temp 172: %s \n",newString);
-    //TEMP
     strcpy(i->description,newString);
     break;
   case 'p':
@@ -404,9 +398,6 @@ char ask_char_question(char *question, char *answer){
   printf("%s \n", question);
   while(true){ 
     char reply = getchar();
-    //TEMP
-    printf("\n \nask_char_q 405: %c \n", reply);
-    //TEMP
     while(getchar() != '\n');
     if(strchr(answer, reply)){
       return tolower(reply);
