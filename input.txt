@@ -8,9 +8,11 @@ A
 s
 G
 z
-22
-f
-33
-w
+
+22 
+33 
+f 
+w 
 bulbasaur
 pikachu
+
