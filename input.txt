@@ -12,4 +12,8 @@ z
 33
 bulbasaur
 pikachu
+y
 
+n
+g
+2
