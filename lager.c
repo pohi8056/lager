@@ -247,14 +247,13 @@ void delete_item(DB db, LastAction lastAct){
   }
 
   if(amountChecker > db->amount){
-    printf("IM HEREEEE");
     lastAct->latestOp = 3;
   }
 }
 
 
 void assignLocation(DB db, Item item){
-  item->location = malloc(sizeof(struct location_t)*20);
+  item->location = malloc(sizeof(struct location_t)*5);
   char *shelfs = "ABCDEF";
   int place = 0;
   int j = 0;
@@ -286,10 +285,10 @@ void readd_to_db(DB db, LastAction lastAct){
 
 
 void copy_to_last_action(Item item, LastAction lastAct){
-  lastAct->latest = malloc(sizeof(struct item_t) * 10);
-  lastAct->latest->name = malloc(sizeof(char) * 20);
-  lastAct->latest->description = malloc(sizeof(char) * 30);
-  lastAct->latest->location = malloc(sizeof(struct location_t) * 2);
+  lastAct->latest = malloc(sizeof(struct item_t) * 5);
+  lastAct->latest->name = malloc(sizeof(char) * 10);
+  lastAct->latest->description = malloc(sizeof(char) * 10);
+  lastAct->latest->location = malloc(sizeof(struct location_t) * 5);
 
   strcpy(lastAct->latest->name, item->name);
   strcpy(lastAct->latest->description, item->description);
@@ -301,7 +300,7 @@ void copy_to_last_action(Item item, LastAction lastAct){
 
 void add_item(DB db, LastAction lastAct){
   
-  Item item = malloc(sizeof(struct item_t) * 50);
+  Item item = malloc(sizeof(struct item_t) * 5);
   bool validAmount = false;
   bool validPrice = false;
   ask_name("Name: ", item, 1);

@@ -492,14 +492,48 @@ void testDelete_by_name() {
 void delete_item(DB db, LastAction lastAct);
 
 void testDelete_item() {
-/*
-    DB db;
-    LastAction lastAct;
-    delete_item(db, lastAct);
-    if (1) {
-        CU_ASSERT(0);
-    }
-*/
+
+  /* DB db = malloc(sizeof(struct db_t)*10); */
+  /* LastAction lastAct = malloc(sizeof(struct last_action_t)*10); */
+
+  /* Item item1 = malloc(sizeof(struct item_t)*10); */
+  /* Item item2 = malloc(sizeof(struct item_t)*10); */
+  /* Item item3 = malloc(sizeof(struct item_t)*10); */
+
+  /* item1->location = malloc(sizeof(struct location_t)*2); */
+  /* item1->location->place = 1; */
+  /* item1->location->shelf = 'A'; */
+
+  /* item1->name = "Pear"; */
+  /* item1->description = "Green"; */
+  /* item1->price = 2; */
+  /* item1->amount = 4; */
+
+  /* item2->location = malloc(sizeof(struct location_t)*2); */
+  /* item2->location->place = 2; */
+  /* item2->location->shelf = 'A'; */
+
+  /* item2->name = "Apple"; */
+  /* item2->description = "Red"; */
+  /* item2->price = 5; */
+  /* item2->amount = 3; */
+
+  /* item3->location = malloc(sizeof(struct location_t)*2); */
+  /* item3->location->place = 3; */
+  /* item3->location->shelf = 'A'; */
+
+  /* item3->name = "Banana"; */
+  /* item3->description = "Yellow"; */
+  /* item3->price = 1; */
+  /* item3->amount = 4; */
+
+
+  /* delete_item(db, lastAct); */
+  
+  /* CU_ASSERT(0); */
+
+  
+  
 }
 
 
@@ -599,13 +633,28 @@ void testPrint_main_menu() {
 void readd_to_db(DB db, LastAction lastAct);
 
 void testReadd_to_db() {
-  /*    DB db;
-    LastAction lastAct;
-    readd_to_db(db, lastAct);
-    if (1) {
-        CU_ASSERT(0);
-    }
-*/
+  DB db = malloc(sizeof(struct db_t)*10);
+  LastAction lastAct = malloc(sizeof(struct last_action_t)*5);
+  lastAct->latest = malloc(sizeof(struct item_t));
+
+  lastAct->latest->name = "Pear";
+  lastAct->latest->description = "Green";
+  lastAct->latest->price = 2;
+  lastAct->latest->amount = 4;
+  lastAct->inventoryPosition = 2;
+
+  
+  db->amount = 0;
+  readd_to_db(db, lastAct);
+  
+  CU_ASSERT(!strcmp(lastAct->latest->name, db->inventory[2]->name));
+  CU_ASSERT(!strcmp(lastAct->latest->description, db->inventory[2]->description));
+  CU_ASSERT(lastAct->latest->price == 2);
+  CU_ASSERT(lastAct->latest->amount == 4);
+  CU_ASSERT(db->amount == 1);
+
+  free(db);
+  free(lastAct);
 }
 
 
@@ -613,14 +662,67 @@ void testReadd_to_db() {
 void undo(DB db, LastAction lastAct);
 
 void testUndo() {
-  /*
-  DB db;
-  LastAction lastAct;
+  
+  DB db = malloc(sizeof(struct db_t)*10);
+  DB db2 = malloc(sizeof(struct db_t)*10);
+  DB db3 = malloc(sizeof(struct db_t)*10);
+  db->inventory[0] = malloc(sizeof(struct db_t)*2);
+  db2->inventory[0] = malloc(sizeof(struct db_t)*2);
+  LastAction lastAct = malloc(sizeof(struct last_action_t)*3);
+  lastAct->latest = malloc(sizeof(struct item_t)*3);
+
+  lastAct->latest->name = "Pear";
+  lastAct->latest->description = "Green";
+  lastAct->latest->price = 2;
+  lastAct->latest->amount = 4;
+  lastAct->inventoryPosition = 0;
+
+
+  /*----------------LATEST OP ADD-------------------*/
+  lastAct->latestOp = 1;
+
+  db->inventory[0]->name = "Pear";
+  db->inventory[0]->description = "Green";
+  db->inventory[0]->price = 2;
+  db->inventory[0]->amount = 4;
+  db->amount = 1;
   undo(db, lastAct);
-  if (1) {
-    CU_ASSERT(0);
-  }
-*/
+  
+  CU_ASSERT(db->inventory[0] == NULL);
+  CU_ASSERT(lastAct->latestOp == 0);
+
+  /*----------------LATEST OP EDIT-------------------*/
+  lastAct->latestOp = 2;
+  db2->inventory[0]->name = "Pear";
+  db2->inventory[0]->description = "Green";
+  db2->inventory[0]->price = 3;
+  db2->inventory[0]->amount = 1;
+  db2->amount = 1;
+
+  undo(db2, lastAct);
+  
+  CU_ASSERT(db2->inventory[0]->price == lastAct->latest->price);
+  CU_ASSERT(db2->inventory[0]->amount == lastAct->latest->amount);
+  CU_ASSERT(lastAct->latestOp == 0);
+  CU_ASSERT(db2->amount == 1)
+  /*----------------LATEST OP DELETE-------------*/
+  lastAct->latestOp = 3;
+
+  undo(db3, lastAct);
+  
+
+  CU_ASSERT(!strcmp(lastAct->latest->name, db3->inventory[0]->name));
+  CU_ASSERT(!strcmp(lastAct->latest->description, db3->inventory[0]->description));
+  CU_ASSERT(lastAct->latest->price == 2);
+  CU_ASSERT(lastAct->latest->amount == 4);
+  CU_ASSERT(lastAct->latestOp == 0);
+
+
+  free(db);
+  free(db2);
+  free(db3);
+  free(lastAct);
+
 }
 
 

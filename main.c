@@ -7,7 +7,7 @@ int main(int argc, char *argv[]){
   if(argc == 2){
       user = argv[1];
     }
-  DB db = malloc(sizeof(DB) * 1000);
+  DB db = malloc(sizeof(DB) * 500);
   LastAction latest = malloc(sizeof(LastAction)*10);
 
   bool shouldContinue = true;
@@ -46,6 +46,6 @@ int main(int argc, char *argv[]){
       break;
     }
   }
-  
+  free(db);
   return 0;
 }
