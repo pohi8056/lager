@@ -46,6 +46,7 @@ int main(int argc, char *argv[]){
       break;
     }
   }
+  free(db->latest);
   free(db);
   return 0;
 }

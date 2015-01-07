@@ -368,7 +368,7 @@ void testCopy_to_last_action() {
   CU_ASSERT(item->amount == lastAct->latest->amount);
   CU_ASSERT(item->location->place == lastAct->latest->location->place);
   CU_ASSERT(item->location->shelf == lastAct->latest->location->shelf);
-
+  free(item->location);
   free(item);
   free(lastAct);
 }
@@ -430,11 +430,14 @@ void testDelete_by_location() {
   CU_ASSERT(!strcmp(lastAct->latest->description, "Red"));
   CU_ASSERT(lastAct->latest->price == 5);
   CU_ASSERT(lastAct->latest->amount == 3);
-
+  free(item1->location);
+  free(item2->location);
+  free(item3->location);
   free(db);
   free(item1);
   free(item2);
   free(item3);
+  free(lastAct);
 }
 
 
@@ -486,6 +489,7 @@ void testDelete_by_name() {
   free(item1);
   free(item2);
   free(item3);
+  free(lastAct);
 }
 
 
@@ -707,6 +711,7 @@ void testReadd_to_db() {
   CU_ASSERT(lastAct->latest->amount == 4);
   CU_ASSERT(db->amount == 1);
 
+  free(lastAct->latest);
   free(db);
   free(lastAct);
 }
@@ -771,7 +776,8 @@ void testUndo() {
   CU_ASSERT(lastAct->latest->amount == 4);
   CU_ASSERT(lastAct->latestOp == 0);
 
-
+  free(db->inventory[0]);
+  free(db2->inventory[0]);
   free(db);
   free(db2);
   free(db3);

@@ -23,6 +23,14 @@ testp: lager
 clean: 
 	rm -f *.o
 
+lager_cov:
+	$(CC) -fprofile-arcs -ftest-coverage lager.c -c
+
+cov: lager_cov
+	$(CC) $(LINKFLAGS) -fprofile-arcs -ftest-coverage newcunittest.c -o cov -lm -lcunit
+
+run_cov: test
+	./test < input.txt
 
 run_test: test
 	./test < input.txt
@@ -32,3 +40,6 @@ run_testp: testp
 
 run: main
 	./main
+
+val: test
+	valgrind --leak-check=yes test
