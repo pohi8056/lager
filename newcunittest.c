@@ -196,13 +196,22 @@ void testAsk_name() {
 _Bool ask_yes_no(char* question);
 
 void testAsk_yes_no() {
-  /*
-    char* question;
-    _Bool result = ask_yes_no(question);
-    if (1) {
-        CU_ASSERT(0);
-    }
-*/
+
+  _Bool result1 = ask_yes_no("Question:");
+  //y
+  _Bool result2 = ask_yes_no("Question:"); //fail
+  //n
+  //_Bool result3 = ask_yes_no("Question:"); //fail
+  //f
+  //_Bool result4 = ask_yes_no("Question:"); //fail
+  //2
+  
+  
+  CU_ASSERT(result1);
+  CU_ASSERT(!result2);
+  //CU_ASSERT(!result3);
+  // CU_ASSERT(!result4);
+  
 }
 
 
