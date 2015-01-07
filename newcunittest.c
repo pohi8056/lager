@@ -205,10 +205,26 @@ void testAsk_name() {
 _Bool ask_yes_no(char* question);
 
 void testAsk_yes_no() { 
-  /*
+  
   char* question;
-  _Bool result = ask_yes_no(question);
-  */
+  _Bool result1 = ask_yes_no(question);
+  //y
+  _Bool result2 = ask_yes_no(question); //SHOULD FAIL
+  //n
+  //_Bool result3 = ask_yes_no(question); //SHOULD FAIL
+  //g
+  //_Bool result4 = ask_yes_no(question); //SHOULD FAIL
+  //2
+  
+  CU_ASSERT(result1);
+  printf("\nAsk yes no: %d\n", result1);
+  CU_ASSERT(!result2);
+  printf("Ask yes no: %d\n", result2);
+
+  //CU_ASSERT(!result3);
+  //printf("Ask yes no: %d\n", result3);
+
+  //CU_ASSERT(!result4);
 }
 
 
