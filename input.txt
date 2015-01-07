@@ -9,6 +9,8 @@ s
 G
 z
 22
-33
 f
+33
 w
+bulbasaur
+pikachu
