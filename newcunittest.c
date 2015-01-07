@@ -207,8 +207,8 @@ void testAsk_int() {
 void ask_name(char* question, Item item, int op);
 
 void testAsk_name() {
-  printf("ASKNAME");
-   char* question = "ask_name question";
+  printf("\nASKNAME\n");
+   char* question = "\nthe ask_name question\n";
    Item item = malloc(sizeof(struct item_t) * 100);
    int op1 = 1;
    int op2 = 2;
@@ -224,14 +224,14 @@ void testAsk_name() {
 }
 
 
-_Bool ask_yes_no(char* question);
+bool ask_yes_no(char* question);
 
 void testAsk_yes_no() { 
   
-  char* question;
-  _Bool result1 = ask_yes_no(question);
+  char* question = "\nthe ask_yes_no question\n";
+  bool result1 = ask_yes_no(question);
   //y
-  _Bool result2 = ask_yes_no(question); //SHOULD FAIL
+  bool result2 = ask_yes_no(question); //SHOULD FAIL
   //n
   //_Bool result3 = ask_yes_no(question); //SHOULD FAIL
   //g
@@ -253,14 +253,96 @@ void testAsk_yes_no() {
 void assignLocation(DB db, Item item);
 
 void testAssignLocation() {
-  /*
-    DB db;
-    Item item;
-    assignLocation(db, item);
-    if (1) {
-        CU_ASSERT(0);
-    }
-*/
+  DB db1 = malloc(sizeof(struct db_t) * 100);
+
+  Item v1 = malloc(sizeof(struct item_t));
+  Item v2 = malloc(sizeof(struct item_t));
+  Item v3 = malloc(sizeof(struct item_t));
+  Item v4 = malloc(sizeof(struct item_t));
+  Item v5 = malloc(sizeof(struct item_t));
+  Item v6 = malloc(sizeof(struct item_t));
+
+  v1->name = "Apple";
+  v1->description = "Red";
+  v1->price = 5;
+  v1->amount = 3;
+
+  v2->name = "Pear";
+  v2->description = "Green";
+  v2->price = 2;
+  v2->amount = 5;
+
+  v3->name = "Banana";
+  v3->description = "Disgusting";
+  v3->price = 0;
+  v3->amount = 33;
+
+  v4->name = "Hat";
+  v4->description = "Toppy";
+  v4->price = 1;
+  v4->amount = 2;
+
+  v5->name = "12";
+  v5->description = "13";
+  v5->price = 5;
+  v5->amount = 2;
+
+  v6->name = "Oboy";
+  v6->description = "Sweet";
+  v6->price = 3;
+  v6->amount = 4;
+
+  add_to_db(db1, v1);
+  assignLocation(db1, v1);
+  add_to_db(db1, v2);
+  assignLocation(db1, v2);
+  add_to_db(db1, v3);
+  assignLocation(db1, v3);
+  add_to_db(db1, v4);
+  assignLocation(db1, v4);
+  add_to_db(db1, v5);
+  assignLocation(db1, v5);
+  add_to_db(db1, v6);
+  assignLocation(db1, v6);
+
+
+  printf("RESULT: %c\n",db1->inventory[0]->location->shelf);
+  CU_ASSERT(db1->inventory[0]->location->shelf == 'A');
+
+  printf("RESULT: %d\n",db1->inventory[0]->location->place);
+  CU_ASSERT(db1->inventory[0]->location->place == 1);
+
+  printf("RESULT: %c\n",db1->inventory[1]->location->shelf);
+  CU_ASSERT(db1->inventory[1]->location->shelf == 'A');
+
+  printf("RESULT: %d\n",db1->inventory[1]->location->place);
+  CU_ASSERT(db1->inventory[1]->location->place == 2);
+
+  printf("RESULT: %c\n",db1->inventory[2]->location->shelf);
+  CU_ASSERT(db1->inventory[2]->location->shelf == 'A');
+
+  printf("RESULT: %d\n",db1->inventory[2]->location->place);
+  CU_ASSERT(db1->inventory[2]->location->place == 3);
+
+  printf("RESULT: %c\n",db1->inventory[3]->location->shelf);
+  CU_ASSERT(db1->inventory[3]->location->shelf == 'A');
+
+  printf("RESULT: %d\n",db1->inventory[3]->location->place);
+  CU_ASSERT(db1->inventory[3]->location->place == 4);
+
+  printf("RESULT: %c\n",db1->inventory[4]->location->shelf);
+  CU_ASSERT(db1->inventory[4]->location->shelf == 'B');
+
+  printf("RESULT: %d\n",db1->inventory[4]->location->place);
+  CU_ASSERT(db1->inventory[4]->location->place == 1);
+
+  free(v1);
+  free(v2);
+  free(v3);
+  free(v4);
+  free(v5);
+  free(v6);
+  free(db1);
 }
 
 
