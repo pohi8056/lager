@@ -206,9 +206,6 @@ void testAsk_yes_no() {
   /*
   char* question;
   _Bool result = ask_yes_no(question);
-  if (1) {
-    CU_ASSERT(0);
-  }
   */
 }
 
