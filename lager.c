@@ -163,11 +163,17 @@ void edit_item_parameters(Item i){
   case 'n':
     printf("\nNew name:");
     scanf("%s", newString);
+    //TEMP
+    printf("\n \nedit_name temp 167: %s \n",newString);
+    //TEMP
     strcpy(i->name,newString);
     break;
   case 'd':
     printf("\nNew description:");
     scanf("%s", newString);
+    //TEMP
+    printf("\n \nedit_desc temp 172: %s \n",newString);
+    //TEMP
     strcpy(i->description,newString);
     break;
   case 'p':
@@ -301,7 +307,7 @@ void copy_to_last_action(Item item, LastAction lastAct){
 
 void add_item(DB db, LastAction lastAct){
   
-  Item item = malloc(sizeof(struct item_t) * 50);
+  Item item = malloc(sizeof(struct item_t) * 5);
   bool validAmount = false;
   bool validPrice = false;
   ask_name("Name: ", item, 1);
@@ -364,7 +370,7 @@ void ask_name(char *question, Item item, int op){
     break;
 
   case 2:
-    item->description = malloc(sizeof(item) + 10);
+    item->description = malloc(sizeof(item) + 15);
     strcpy(item->description, s);
     break;
   }
@@ -398,6 +404,9 @@ char ask_char_question(char *question, char *answer){
   printf("%s \n", question);
   while(true){ 
     char reply = getchar();
+    //TEMP
+    printf("\n \nask_char_q 405: %c \n", reply);
+    //TEMP
     while(getchar() != '\n');
     if(strchr(answer, reply)){
       return tolower(reply);

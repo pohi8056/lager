@@ -228,8 +228,9 @@ bool ask_yes_no(char* question);
 
 void testAsk_yes_no() { 
   
-  char* question = "Ask yes no question: ";
+  char* question = "Ask yes no question:";
   bool result1 = ask_yes_no(question);
+  while(getchar() != '\n'){};
   //y
   bool result2 = ask_yes_no(question); //SHOULD FAIL
   //n
@@ -248,7 +249,6 @@ void testAsk_yes_no() {
 
   //CU_ASSERT(!result4);
 }
-
 
 void assignLocation(DB db, Item item);
 
@@ -481,7 +481,7 @@ void testDelete_by_name() {
   CU_ASSERT(!strcmp(lastAct->latest->description, "Red"));
   CU_ASSERT(lastAct->latest->price == 5);
   CU_ASSERT(lastAct->latest->amount == 3);
-
+  
   free(db);
   free(item1);
   free(item2);
@@ -506,15 +506,69 @@ void testDelete_item() {
 void edit_by_name(DB db, char* s, LastAction lastAct);
 
 void testEdit_by_name() {
-  /*
-    DB db;
-    char* s;
-    LastAction lastAct;
-    edit_by_name(db, s, lastAct);
-    if (1) {
-        CU_ASSERT(0);
-    }
-*/
+  printf("\n*EDITBYNAME*\n:");
+  //char newString[20];
+  // printf(scanf("\n\n thing: %s \n", newString));
+  // int i;
+  // printf(scanf("\n\n thing: %d \n", i));
+  //char c;
+  // printf(scanf("\n\n thing: %c %[^\n]\n", c));
+  char s1[15] = "Applemartini";
+  char s2[15] = "faasbender";
+   
+  DB db1 = malloc(sizeof(struct db_t) * 1001);
+  LastAction lastAct1 = malloc(sizeof(struct last_action_t) * 20);
+
+  Item v1 = malloc(sizeof(struct item_t) * 100);
+  v1->name = s1;
+  v1->description = s2;
+  v1->price = 5;
+  v1->amount = 3;
+
+  lastAct1->latest = v1;  
+  lastAct1->latestOp = 1;
+  lastAct1->inventoryPosition = 0;
+
+  add_to_db(db1, v1);
+  assignLocation(db1, v1);
+
+  edit_by_name(db1,s1,lastAct1); 
+  //d
+  //FIRE
+  while(getchar() != '\n'){};
+
+  edit_by_name(db1,s1,lastAct1); 
+  //p
+  //1001
+  edit_by_name(db1,s1,lastAct1);  
+  //a
+  //1337
+  while(getchar() != '\n'){};
+
+  edit_by_name(db1,s1,lastAct1);  
+  //n
+  //CHARMANDER
+
+
+  printf("RESULT description: %s\n",db1->inventory[0]->description);
+  CU_ASSERT(strcmp(db1->inventory[0]->description,"FIRE") == 0);
+
+  printf("RESULT price: %d\n",db1->inventory[0]->price);
+  CU_ASSERT(db1->inventory[0]->price == 1001);
+
+  printf("RESULT amount: %d\n",db1->inventory[0]->amount);
+  CU_ASSERT(db1->inventory[0]->amount == 1337);
+
+  printf("RESULT name: %s\n",db1->inventory[0]->name);
+  CU_ASSERT(strcmp(db1->inventory[0]->name,"CHARMANDER") == 0);
+
+
+  free(v1);
+
+  free(lastAct1);
+
+  free(db1);
+
 }
 
 

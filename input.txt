@@ -13,5 +13,16 @@ z
 bulbasaur
 pikachu
 y
-
 n
+c
+D
+FIRE
+p
+1001
+a
+a
+1337
+n
+CHARMANDER
+
+
