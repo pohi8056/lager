@@ -369,7 +369,6 @@ void ask_name(char *question, Item item, int op){
     break;
   }
   while(getchar() != '\n');
-
 }
 
 

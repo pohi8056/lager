@@ -9,10 +9,8 @@ s
 G
 z
 22
+f
 33
-f
 w
-y
-n
-f
-2
+bulbasaur
+pikachu

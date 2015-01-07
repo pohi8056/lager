@@ -185,33 +185,31 @@ void testAsk_int() {
 void ask_name(char* question, Item item, int op);
 
 void testAsk_name() {
-  /* char* question;
-    Item item;
-    int op;
-    ask_name(question, item, op);
-    CU_ASSERT(0);*/
+  printf("ASKNAME");
+   char* question = "ask_name question";
+   Item item = malloc(sizeof(struct item_t) * 100);
+   int op1 = 1;
+   int op2 = 2;
+   ask_name(question, item, op1);
+   //bulbasaur
+   ask_name(question, item, op2);
+   //pikachu
+   CU_ASSERT(strcmp(item->name,"bulbasaur") == 0);
+   CU_ASSERT(strcmp(item->description,"pikachu") == 0);
+   free(item);
 }
 
 
 _Bool ask_yes_no(char* question);
 
-void testAsk_yes_no() {
-
-  _Bool result1 = ask_yes_no("Question:");
-  //y
-  _Bool result2 = ask_yes_no("Question:"); //fail
-  //n
-  //_Bool result3 = ask_yes_no("Question:"); //fail
-  //f
-  //_Bool result4 = ask_yes_no("Question:"); //fail
-  //2
-  
-  
-  CU_ASSERT(result1);
-  CU_ASSERT(!result2);
-  //CU_ASSERT(!result3);
-  // CU_ASSERT(!result4);
-  
+void testAsk_yes_no() { 
+  /*
+  char* question;
+  _Bool result = ask_yes_no(question);
+  if (1) {
+    CU_ASSERT(0);
+  }
+  */
 }
 
 
