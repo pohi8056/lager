@@ -15,6 +15,3 @@ pikachu
 y
 
 n
-g
-2
-

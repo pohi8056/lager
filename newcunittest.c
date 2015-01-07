@@ -228,7 +228,7 @@ bool ask_yes_no(char* question);
 
 void testAsk_yes_no() { 
   
-  char* question = "\nthe ask_yes_no question\n";
+  char* question = "Ask yes no question: ";
   bool result1 = ask_yes_no(question);
   //y
   bool result2 = ask_yes_no(question); //SHOULD FAIL
@@ -349,45 +349,143 @@ void testAssignLocation() {
 void copy_to_last_action(Item item, LastAction lastAct);
 
 void testCopy_to_last_action() {
-  /*
-    Item item;
-    LastAction lastAct;
-    copy_to_last_action(item, lastAct);
-    if (1) {
-        CU_ASSERT(0);
-    }
-*/
+  
+  Item item = malloc(sizeof(struct item_t)*10);
+  item->name = "Apple";
+  item->description = "Red";
+  item->price = 5;
+  item->amount = 3;
+  item->location = malloc(sizeof(struct location_t)*3);
+  item->location->place = 3;
+  item->location->shelf = 'A';
+  
+  LastAction lastAct = malloc(sizeof(struct last_action_t)*10);
+  copy_to_last_action(item, lastAct);
+  printf("\n First: %s, Second: %s\n", item->name, lastAct->latest->name);
+  CU_ASSERT(!strcmp(item->name, lastAct->latest->name));
+  CU_ASSERT(!strcmp(item->description, lastAct->latest->description));
+  CU_ASSERT(item->price == lastAct->latest->price);
+  CU_ASSERT(item->amount == lastAct->latest->amount);
+  CU_ASSERT(item->location->place == lastAct->latest->location->place);
+  CU_ASSERT(item->location->shelf == lastAct->latest->location->shelf);
+
+  free(item);
+  free(lastAct);
 }
 
 
 void delete_by_location(DB db, char shelf, int place, LastAction lastAct);
 
 void testDelete_by_location() {
-  /*
-    DB db;
-    char shelf;
-    int place;
-    LastAction lastAct;
-    delete_by_location(db, shelf, place, lastAct);
-    if (1) {
-        CU_ASSERT(0);
-    }
-*/
+  
+  DB db = malloc(sizeof(struct db_t)*10);
+  Item item1 = malloc(sizeof(struct item_t)*10);
+  Item item2 = malloc(sizeof(struct item_t)*10);
+  Item item3 = malloc(sizeof(struct item_t)*10);
+
+  item1->location = malloc(sizeof(struct location_t)*2);
+  item1->location->place = 1;
+  item1->location->shelf = 'A';
+
+  item1->name = "Pear";
+  item1->description = "Green";
+  item1->price = 2;
+  item1->amount = 4;
+
+  item2->location = malloc(sizeof(struct location_t)*2);
+  item2->location->place = 2;
+  item2->location->shelf = 'A';
+
+  item2->name = "Apple";
+  item2->description = "Red";
+  item2->price = 5;
+  item2->amount = 3;
+
+  item3->location = malloc(sizeof(struct location_t)*2);
+  item3->location->place = 3;
+  item3->location->shelf = 'A';
+
+  item3->name = "Banana";
+  item3->description = "Yellow";
+  item3->price = 1;
+  item3->amount = 4;
+
+  db->inventory[0] = item1;
+  db->inventory[1] = item2;
+  db->inventory[2] = item3;
+  db->amount = 3;
+
+  char shelf = 'A';
+  int place = 2;
+
+  LastAction lastAct = malloc(sizeof(struct last_action_t)*10);
+  delete_by_location(db, shelf, place, lastAct);
+  
+  CU_ASSERT(db->inventory[0] != NULL);
+  CU_ASSERT(db->inventory[1] == NULL);
+  CU_ASSERT(db->inventory[2] != NULL);
+  CU_ASSERT(db->amount == 2);
+  CU_ASSERT(lastAct->inventoryPosition == 1);
+  CU_ASSERT(!strcmp(lastAct->latest->name, "Apple"));
+  CU_ASSERT(!strcmp(lastAct->latest->description, "Red"));
+  CU_ASSERT(lastAct->latest->price == 5);
+  CU_ASSERT(lastAct->latest->amount == 3);
+
+  free(db);
+  free(item1);
+  free(item2);
+  free(item3);
 }
 
 
 void delete_by_name(DB db, char* s, LastAction lastAct);
 
 void testDelete_by_name() {
-  /*
-    DB db;
-    char* s;
-    LastAction lastAct;
-    delete_by_name(db, s, lastAct);
-    if (1) {
-        CU_ASSERT(0);
-    }
-*/
+  
+  DB db = malloc(sizeof(struct db_t)*10);
+  Item item1 = malloc(sizeof(struct item_t)*10);
+  Item item2 = malloc(sizeof(struct item_t)*10);
+  Item item3 = malloc(sizeof(struct item_t)*10);
+
+  item1->name = "Pear";
+  item1->description = "Green";
+  item1->price = 2;
+  item1->amount = 4;
+
+  item2->name = "Apple";
+  item2->description = "Red";
+  item2->price = 5;
+  item2->amount = 3;
+
+
+  item3->name = "Banana";
+  item3->description = "Yellow";
+  item3->price = 1;
+  item3->amount = 4;
+
+  db->inventory[0] = item1;
+  db->inventory[1] = item2;
+  db->inventory[2] = item3;
+  db->amount = 3;
+  char* s = "Apple";
+
+  LastAction lastAct = malloc(sizeof(struct last_action_t)*10);
+  delete_by_name(db, s, lastAct);
+  
+  CU_ASSERT(db->inventory[0] != NULL);
+  CU_ASSERT(db->inventory[1] == NULL);
+  CU_ASSERT(db->inventory[2] != NULL);
+  CU_ASSERT(db->amount == 2);
+  CU_ASSERT(lastAct->inventoryPosition == 1);
+  CU_ASSERT(!strcmp(lastAct->latest->name, "Apple"));
+  CU_ASSERT(!strcmp(lastAct->latest->description, "Red"));
+  CU_ASSERT(lastAct->latest->price == 5);
+  CU_ASSERT(lastAct->latest->amount == 3);
+
+  free(db);
+  free(item1);
+  free(item2);
+  free(item3);
 }
 
 
