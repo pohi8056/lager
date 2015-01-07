@@ -170,12 +170,14 @@ void testAsk_int() {
 
   CU_ASSERT(item1->amount == 22);
   CU_ASSERT(item1->price == 33);
-
-
-  CU_ASSERT(result1);
-  CU_ASSERT(result2);
-  CU_ASSERT(!result3);
-  CU_ASSERT(!result4);
+  printf("%d\n",result1);
+  CU_ASSERT(result1 == true);
+  printf("%d\n",result2);
+  CU_ASSERT(result2 == true);
+  printf("%d\n",result3);
+  CU_ASSERT(result3 == false);
+  printf("%d\n",result4);
+  CU_ASSERT(result4 == false);
 
   free(item1);
   free(item2);
