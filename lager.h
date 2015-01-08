@@ -312,5 +312,23 @@ void edit_by_name(DB db, char *s, LastAction lastAct);
  */
 void edit_item_parameters(Item i);
 
+/**
+ * @param question       question printed to the terminal.
+ * @param min            min value
+ * @param max            max value
+ * @brief Prints a question to the terminal and waits for user input, returning an integer within min & max.
+ * @return int
+ */
+
+int ask_int_question(char *question ,int min, int max);
+
+/**
+ *  @param database      the database containing the items to be printed the terminal. 
+ *  @brief Prints all items in the given database to terminal.
+ *  Prints all specifications of all items to terminal giving option
+ *  of futher item detail being diplayed in teminal  
+ */
+void print_inventory_names(DB database);
+
 
 #endif

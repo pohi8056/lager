@@ -57,7 +57,7 @@ void print_inventory_names(DB database){
     printf("\n\n______Inventory_____\n");
     for (int i = 0; i < 5; i++) {  
       if(database->inventory[k] != NULL){
-	printf("%d.): %s\n", 1 + j++,database->inventory[k++]->name);
+	printf("%d.): %s\n", j++,database->inventory[k++]->name);
 	printf("- - - - - - - - - - \n");
       }
       printf("____________________\n\n");
@@ -65,7 +65,7 @@ void print_inventory_names(DB database){
     while(getchar() != '\n');
     if(ask_yes_no("Print item details? ")){
       while(getchar() != '\n');
-      print_item(database->inventory[ask_int_question("Which item?",j-4,database->amount - 1)]);
+      print_item(database->inventory[ask_int_question("Which item?\nEnter item number:",j-5,database->amount - 1)]);
     }
     if(k <= database->amount){
       while(getchar() != '\n');
