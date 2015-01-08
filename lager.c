@@ -66,6 +66,7 @@ void print_inventory_names(DB database){
     if(ask_yes_no("Print item details? ")){
       while(getchar() != '\n');
       print_item(database->inventory[ask_int_question("Which item?\nEnter item number:",j-5,database->amount - 1)]);
+      printf("\n \n \n \n");  
     }
     if(k <= database->amount){
       while(getchar() != '\n');
@@ -107,15 +108,16 @@ void print_item(Item i){
   int place = i->location->place;
   int price = i->price;
   int amount = i->amount;
+  printf("\n \n");
+  printf("* Item: %s \n",itemName);
+  printf("* Description: %s \n",desc);
+  printf("* Shelf: %c \n",shelf);
 
-  printf("Item: %s \n",itemName);
-  printf("Description: %s \n",desc);
-  printf("Shelf: %c \n",shelf);
+  printf("* Place: %d \n",place);
+  printf("* Amount: %d \n",amount);
+  printf("* Price: $%d\n", price);
+  printf("* Total value: $%d\n",price*amount);
 
-  printf("Place: %d \n",place);
-  printf("Amount: %d \n",amount);
-  printf("Price: $%d\n", price);
-  printf("Total value: $%d\n",price*amount);
 
 }
 
