@@ -30,6 +30,20 @@ void print_inventory(DB database){
 
 }
 
+
+int ask_int_question(char *question ,int min, int max){
+  printf("%s \n", question);
+  while(true){
+    char reply = getchar();
+    int x = reply - '0';
+    while(getchar() != '\n');
+    if(x >= min && x <= max){
+      return x;
+    }
+    printf("Invalid answer, try  %d <= [input] <= %d \n", min,max);    
+  }    
+}
+
 void print_inventory_names(DB database){
   int k = 0;
   int j = 0;
@@ -51,25 +65,7 @@ void print_inventory_names(DB database){
     while(getchar() != '\n');
     if(ask_yes_no("Print item details? ")){
       while(getchar() != '\n');
-      switch (ask_char_question("Which item?\n[O]ne, [T]wo, T[h]ree, Fou[r], F[i]ve:","OoTtHhRrIi")){
-      case 'o':
-	print_item(database->inventory[j-4]);
-	break;
-      case 't':
-	print_item(database->inventory[j-3]);
-	break;
-      case 'h':
-	print_item(database->inventory[j-2]);
-	break;
-      case 'r':
-	print_item(database->inventory[j-1]);
-	break;
-      case 'i':
-	print_item(database->inventory[j]);
-	break;
-      default:
-	break;
-      }
+      print_item(database->inventory[ask_int_question("Which item?",j-4,database->amount - 1)]);
     }
     if(k <= database->amount){
       while(getchar() != '\n');
