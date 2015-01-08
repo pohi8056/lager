@@ -43,10 +43,33 @@ void print_inventory_names(DB database){
     printf("\n\n______Inventory_____\n");
     for (int i = 0; i < 5; i++) {  
       if(database->inventory[k] != NULL){
-	printf("%d.): %s\n", j++,database->inventory[k++]->name);
+	printf("%d.): %s\n", 1 + j++,database->inventory[k++]->name);
 	printf("- - - - - - - - - - \n");
       }
       printf("____________________\n\n");
+    }
+    while(getchar() != '\n');
+    if(ask_yes_no("Print item details? ")){
+      while(getchar() != '\n');
+      switch (ask_char_question("Which item?\n[O]ne, [T]wo, T[h]ree, Fou[r], F[i]ve:","OoTtHhRrIi")){
+      case 'o':
+	print_item(database->inventory[j-4]);
+	break;
+      case 't':
+	print_item(database->inventory[j-3]);
+	break;
+      case 'h':
+	print_item(database->inventory[j-2]);
+	break;
+      case 'r':
+	print_item(database->inventory[j-1]);
+	break;
+      case 'i':
+	print_item(database->inventory[j]);
+	break;
+      default:
+	break;
+      }
     }
     if(k <= database->amount){
       while(getchar() != '\n');
@@ -80,7 +103,7 @@ bool print_inventory_loop(DB database){
 }
 
 void print_item(Item i){
-
+  
   char *itemName = i->name;
   char *desc = i->description;
   char shelf = i->location->shelf;
