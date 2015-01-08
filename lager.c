@@ -41,7 +41,7 @@ void print_inventory_names(DB database){
     printf("\n \n \n \n \n \n \n \n \n \n");  
     printf("\n \n \n \n \n \n \n \n \n \n");
     printf("\n\n______Inventory_____\n");
-    for (int i = 0; i <= 5; i++) {  
+    for (int i = 0; i < 5; i++) {  
       if(database->inventory[k] != NULL){
 	printf("%d.): %s\n", j++,database->inventory[k++]->name);
 	printf("- - - - - - - - - - \n");
@@ -49,6 +49,7 @@ void print_inventory_names(DB database){
       printf("____________________\n\n");
     }
     if(k <= database->amount){
+      while(getchar() != '\n');
       theBool = ask_yes_no("Print 5 more? ");
     }
     else{
@@ -59,7 +60,6 @@ void print_inventory_names(DB database){
 
 bool print_inventory_loop(DB database){
   if(ask_yes_no("Print full inventory? ")){
-    while(getchar() != '\n');
     print_inventory(database);
   }
   else{
@@ -67,6 +67,7 @@ bool print_inventory_loop(DB database){
   }
   
   while(true){
+    while(getchar() != '\n');
     if(ask_yes_no("Back to main menu?\n")){
       while(getchar() != '\n');
       break;
