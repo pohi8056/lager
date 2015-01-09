@@ -26,11 +26,6 @@ make:
 
 -run                        run main executable
 
-extra:
--cov                        build gcov testfiles
--run_cov                    run gcov on testfiles
--val                        run valgrind on testfiles.
-
 
 IMPORTANT NOTES:
 ---------------------------------------------------------------------
