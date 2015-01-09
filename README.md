@@ -15,17 +15,22 @@ BUILD:
 ---------------------------------------------------------------------
 make:
 
--all                        make all library .o files 
+-all                        build needed files to run Inventory Database 
 -clean                      clean away all generated .o files
 
 -lager                      build lager.o
--main                       build main.c
+-main                       build main executable
 
--test                       build lager.c tests.
+-test                       build lager.c tests
 -run_test                   run lager.c tests.
 
+-run                        run main executable
 
--run                        run main.c
+extra:
+-cov                        build gcov testfiles
+-run_cov                    run gcov on testfiles
+-val                        run valgrind on testfiles.
+
 
 IMPORTANT NOTES:
 ---------------------------------------------------------------------
